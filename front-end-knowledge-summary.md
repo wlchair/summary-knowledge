@@ -65,7 +65,7 @@
 > 
 > * **后续产生的问题：`SGML`是什么？H5不再遵循它的标准，H5现在按照什么标准执行的？为什么不遵循了？有什么新特性？**
 
-* *浏览器标准模式 (standards mode) 、几乎标准模式（almost standards mode）和怪异模式 (quirks mode) 之间的区别是什么？*
+* **浏览器标准模式 (standards mode) 、几乎标准模式（almost standards mode）和怪异模式 (quirks mode) 之间的区别是什么？**
 > * 几乎标准模式，是现在多数浏览器实现的一种方式，原文：
 > `Firefox, Safari, Chrome, Opera (since 7.5), IE8, IE9 and IE10 also have a mode known as “the Almost Standards mode”, which implements the vertical sizing of table cells traditionally and not according to the CSS2 specification. Mac IE 5, Windows IE 6 and 7, Opera prior to 7.5 and Konqueror did not need an Almost Standards mode, because they didn’t implement the vertical sizing of table cells according to the CSS2 specification in their respective Standards modes anyway. In fact, their Standards modes are closer to the Almost Standards mode than to the Standards mode of newer browsers.
 In retrospect, the Web would have been better off by not having the distintion between Standards and Almost Standards, having the Almost Standards behavior as the default and having a CSS property for opting into the behavior that is the default in the Standards mode. Still, you should use the Standards mode—not the Almost Standard mode.`
@@ -195,26 +195,125 @@ In retrospect, the Web would have been better off by not having the distintion b
 
 * **请问 "resetting" 和 "normalizing" CSS 之间的区别？你会如何选择，为什么？**
 
-> 
+> * `resetting`的目标：
+> * 把浏览器自带的样式全部重置，开发人员可以把网页当做一张白纸，不需要考虑各个浏览器出来的结果是否会有不一致的表现。这个思路看似完美的避开了`css`在不同浏览器下的问题（现在浏览器的默认值差异越来越小）
+> * 但，也引发了另一些问题，如果把所有的样式都去掉，有些标签的有用样式也会被干掉，例如：`h1,h2,h3{margin:0,padding:0}`这类写法，反而造成了页面渲染的问题。
+> * 把大批量的样式重置，加大开发者的工作量，也造成了一些性能问题，代码调试更为困难
+>
+> * `normailing`,顺应了浏览器的一些现状，把开发者一致认为不满意的地方进行修改，其余根据项目不同而做的工作留给开发者。
+> * 其他优势：
+>  * 修复了一些浏览器的bug（需要把bug列出来，仔细去研究学习）
+>  * 采用小范围的调整，让调试代码时，不会出现多层继承调试的问题
+>  * 把代码拆解了，取其所需，以免无脑者，原封照搬
+>  normalize地址：[http://nicolasgallagher.com/about-normalize-css/](http://nicolasgallagher.com/about-normalize-css/)
+>  resetting被吐槽：[http://www.zhangxinxu.com/wordpress/2010/04/css-reset%E7%9A%84%E9%87%8D%E6%96%B0%E5%AE%A1%E8%A7%86-%E9%81%BF%E5%85%8D%E6%A0%B7%E5%BC%8F%E9%87%8D%E7%BD%AE/](http://www.zhangxinxu.com/wordpress/2010/04/css-reset%E7%9A%84%E9%87%8D%E6%96%B0%E5%AE%A1%E8%A7%86-%E9%81%BF%E5%85%8D%E6%A0%B7%E5%BC%8F%E9%87%8D%E7%BD%AE/)
+> * *个人认为两个思想都没有问题，看你项目是否需要那样的条件，理解发起者的初衷，适度使用*
 
-* **请解释浮动 (Floats) 及其工作原理。**
-* 答：
-* [clear](https://developer.mozilla.org/zh-CN/docs/Web/CSS/clear "clear:both") | [float](https://developer.mozilla.org/zh-CN/docs/CSS/float "float")
+* **请解释浮动 (Floats) 及其工作原理？列举不同的清除浮动的技巧，并指出它们各自适用的使用场景？**
+
+> * `float`属于流里面的特殊类型（总共三种类型：普通，浮动，绝对定位）
+> * 特性：
+>  * 它会在流里面产生向左或向右的浮动，同时与普通的内联元素影响，产生被包围的效果 
+>  * 改变原始元素`display`属性，变为块级元素
+> * 缺陷：
+>  * 其他块级元素会无视这个元素，造成遮盖的情况
+>  * 父普通流出现`高度塌陷`的情况，因为父元素不会把`float`元素的宽、高计算在内
+> * 清除浮动方式：
+>  * 清除浮动：`clear`方式，在浮动结尾处加入清除浮动元素，让浮动结束并让父元素知道浮动元素的高度
+>  * 闭合浮动：使用overflow、display方式，创建一个BFC环境
+> * 使用场景：
+>  * 在不支持BFC的环境中，使用清楚浮动。在其他环境下使用BFC
+> * 参考资料：
+>  * w3c说明：[https://www.w3.org/TR/css3-box/#block-level0](https://www.w3.org/TR/css3-box/#block-level0)
+>  * 各种方法解释：[http://www.zhihu.com/question/19915431](http://www.zhihu.com/question/19915431)
+>  * 涉及到了positon：[http://www.cnblogs.com/vitruvi/p/4303891.html](http://www.cnblogs.com/vitruvi/p/4303891.html)
+
+
 * **描述`z-index`和叠加上下文是如何形成的。**
-* 答：[z-index](http://www.cnblogs.com/ForEvErNoME/p/3373641.html "z-index")
+
+> * 待深入研究
+> * 参考资料：
+>  * 博客讲解：[http://www.zhangxinxu.com/wordpress/2016/01/understand-css-stacking-context-order-z-index/](http://www.zhangxinxu.com/wordpress/2016/01/understand-css-stacking-context-order-z-index/)
+>  * 官方解释：[https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Understanding_z_index/The_stacking_context](https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Understanding_z_index/The_stacking_context)
+>  * z-index解释：[z-index](http://www.cnblogs.com/ForEvErNoME/p/3373641.html "z-index")
+
+
 * **请描述 BFC(Block Formatting Context) 及其如何工作。**
-* **列举不同的清除浮动的技巧，并指出它们各自适用的使用场景。**
-* *请解释 CSS sprites，以及你要如何在页面或网站中实现它。*
-* *你最喜欢的图片替换方法是什么，你如何选择使用。*
+
+>
+
+
+* **请解释 CSS sprites，以及你要如何在页面或网站中实现它。**
+
+> * 把多张图片压缩至一张图片内，好处很多。自行百度吧 
+> * 实现工具：
+>  * 腾讯：[http://www.99css.com/1524/](http://www.99css.com/1524/)
+>  * grunt下：[https://github.com/Ensighten/grunt-spritesmith](https://github.com/Ensighten/grunt-spritesmith)
+>  * github上：[https://github.com/aslansky/css-sprite](https://github.com/aslansky/css-sprite)
+>  这个东西器用来相对简单
+
+
+* **你最喜欢的图片替换方法是什么，你如何选择使用。**
+
+> * 目的：SEO优化，方便搜索引擎抓取文本
+> * 实现原则：
+>  * 图片作为背景充满元素显示区
+>  * 文字在外框元素内，但不能显示
+> * 实现：
+>  * 图片，直接设置为背景图
+>  * 图片，加入单独元素，放在外框内
+>  * 文本，使文本推至浏览器可视范围以外
+>  * 文本，让文本的高度为0
+> * 使用原则：
+>  * 还没有想好...
+
 * **你会如何解决特定浏览器的样式问题？**
+* 
 * **如何为有功能限制的浏览器提供网页？**
   * **你会使用哪些技术和处理方法？**
+
+
 * **有哪些的隐藏内容的方法 (如果同时还要保证屏幕阅读器可用呢)？**
+
+> * 隐藏的方法：
+>  * display:none，屏幕不可用，pass
+>  * visibility:none，隐藏还占位，pass
+>  * overflow：hidden，可以用
+>  * text-indent:100%| -9999，可以用
+>  * magin:-9999，可以用
+>  * height:0，可以用
+>  * font-size：0，可以用
+>  * color:背景色一致，可以用
+
 * **你用过栅格系统 (grid system) 吗？如果使用过，你最喜欢哪种？**
-* *你用过媒体查询，或针对移动端的布局/CSS 吗？*
+* **你用过媒体查询，或针对移动端的布局/CSS 吗？**
+
+> 参考链接：[http://www.zhangxinxu.com/wordpress/2015/02/css-deep-understand-flow-bfc-column-two-auto-layout/](http://www.zhangxinxu.com/wordpress/2015/02/css-deep-understand-flow-bfc-column-two-auto-layout/)
+
 * **你熟悉 SVG 样式的书写吗？**
+* 
 * **如何优化网页的打印样式？**
+* 
 * **在书写高效 CSS 时会有哪些问题需要考虑？**
+
+> * 考虑两方面：性能，可维护性
+> * 性能：
+>  * 文件体积
+>  * 层级嵌套不超过4层
+>  * 继承属性
+>  * 选择器权重
+> * 可维护性
+>  * 模块命名标准
+>  * 提取公共结构
+>  * 属性顺序
+> * 方法论
+>  * OOCSS，结构与样式分离，容器和内容分离
+>  * SMACSS，把页面切分为多个大结构，BASE,LAYOUT,MODULE,STATE,THEME
+>  * BEM，命名递增，block-element-modifier，例如：#nav-knowledge-item
+> * 参考资料
+>  * 考虑面和方法论：[https://www.zhihu.com/question/19886806](https://www.zhihu.com/question/19886806)
+>  * 深入细节选择器：[http://blog.jobbole.com/35339/](http://blog.jobbole.com/35339/)
+
 * *使用 CSS 预处理器的优缺点有哪些？*
   * *请描述你曾经使用过的 CSS 预处理器的优缺点。*
 * *如果设计中使用了非标准的字体，你该如何去实现？*
