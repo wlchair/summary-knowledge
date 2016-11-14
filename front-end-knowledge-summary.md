@@ -314,20 +314,83 @@ In retrospect, the Web would have been better off by not having the distintion b
 >  * 考虑面和方法论：[https://www.zhihu.com/question/19886806](https://www.zhihu.com/question/19886806)
 >  * 深入细节选择器：[http://blog.jobbole.com/35339/](http://blog.jobbole.com/35339/)
 
-* *使用 CSS 预处理器的优缺点有哪些？*
-  * *请描述你曾经使用过的 CSS 预处理器的优缺点。*
-* *如果设计中使用了非标准的字体，你该如何去实现？*
-* **请解释浏览器是如何判断元素是否匹配某个 CSS 选择器？**
-* **请描述伪元素 (pseudo-elements),伪类有哪些 及其用途。**
-* **请解释你对盒模型的理解，以及如何在 CSS 中告诉浏览器使用不同的盒模型来渲染你的布局。**
-* *请解释 ```* { box-sizing: border-box; }``` 的作用, 并且说明使用它有什么好处？*
-* *请罗列出你所知道的 display 属性的全部值*
-* *答：block，inline-block，none，table，inline-table，inline,table-cell*
-* *请解释 inline 和 inline-block 的区别？*
-* *请解释 relative、fixed、absolute 和 static 元素的区别*
-* **CSS 中字母 'C' 的意思是叠层 (Cascading)。请问在确定样式的过程中优先级是如何决定的 (请举例)？如何有效使用此系统？**
+* **使用 CSS 预处理器的优缺点有哪些？请描述你曾经使用过的 CSS 预处理器的优缺点？**
 
-> [权重连接](http://www.w3cplus.com/css/css-specificity-things-you-should-know.html)
+> * 预处理特性
+>  * 把`css`赋予编程语言：变量、混合、函数、继承。减少代码的冗余，易于维护、扩展
+> * 各种预处理器的特性
+>  * ~~**Less**~~
+>  * ~~**Sass**~~
+>  * ~~**Styleus**~~
+> * 参考资料：
+>  * 不同预处理器对比：[http://efe.baidu.com/blog/revisiting-css-preprocessors/](http://efe.baidu.com/blog/revisiting-css-preprocessors/)
+* **如果设计中使用了非标准的字体，你该如何去实现？**
+
+> * 作用
+>  * 帮助网页实现自定义的字体效果，一般用来网页的icon，特殊的网站增加效果，例如：http://www.trashpack.com/us/products/（和谐网络打开很慢）
+>  
+> * 注意
+>  * 不要用中文自定义字体，会很影响加载性能。效果等同于图片
+>  * 4种字体的兼容性不同，需要同时对应
+>  
+> * 参考资料
+>  * 介绍很全：[http://www.w3cplus.com/content/css3-font-face](http://www.w3cplus.com/content/css3-font-face)
+
+* **请解释浏览器是如何判断元素是否匹配某个 CSS 选择器？**
+
+> * `css`的匹配原则
+>  * 权重高的优先
+>  * 离得近的优先
+>  * **权重**作用大于**离得近**
+>  
+> * 权重顺序
+>  * important > 行内(1000) > id(100) > class、属性、伪类(10) > tag、伪元素(1)
+>  
+> * 性能顺序
+>  * id > class > tag > 相邻(h1+p) > 子集(ul > li) > 后代(li a) > 通配(*) > 属性(a[rel="external") > 伪(a:hover,li:nth-child)
+>   
+> * 参考资料
+>  * 选择器类型：[http://www.w3cplus.com/css3/basic-selectors](http://www.w3cplus.com/css3/basic-selectors)
+>  * 选择器兼容性：[https://kimblim.dk/css-tests/selectors/](https://kimblim.dk/css-tests/selectors/)
+>  * 选择器性能：[http://www.w3cplus.com/css/css-selector-performance](http://www.w3cplus.com/css/css-selector-performance)
+>  * 选择器lint工具：[http://csslint.net/](http://csslint.net/)
+
+* **请描述伪元素 (pseudo-elements),伪类有哪些 及其用途。**
+
+> * 伪元素
+>  * before，after，first-letter，first-line，selection，backdrop
+>  
+> * 伪类
+>  * link，hover，active，visited
+>  
+> * 用途
+>  * 装饰内容，例如：加入图标，加入说明内容
+>  * 清除浮动，例如：`clearfix`
+>  * 伪类功能很明显，就不说了
+
+* **请解释你对盒模型的理解，以及如何在 CSS 中告诉浏览器使用不同的盒模型来渲染你的布局？说明使用它有什么好处**
+
+> * 作用
+>  * `box-sizing`来告诉浏览器模式`border-box`或`content-box`
+> * 好处
+>  * 在有多种渲染模式时，指定css模式，方便布局
+> * 缺陷
+>  * 在IE6，7上，不能识别`box-sizing`模式，所以它起不到作用，也改变不了网页的布局方式。兼容6,7的方式一般来说还是hack补丁方式
+
+* **请罗列出你所知道的 display 属性的全部值?请解释 inline 和 inline-block 的区别?**
+
+> * block，inline-block，none，table，inline-table，inline,table-cell
+> * inline是内联元素，inline-blokc是具有内联属性的块级元素
+> * 内联元素和块级元素区别：[https://developer.mozilla.org/zh-CN/docs/Web/HTML/Inline_elemente](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Inline_elemente)
+
+* **请解释 relative、fixed、absolute 和 static 元素的区别**
+> * 特性
+>  * 定位元素：relative、fixed、absolute
+>  * static属于非定位元素，left,top,z-index不会起作用
+>  * absolute会对`除static`的元素进行定位
+>  * fixed相对于屏幕的视口进行固定定位
+> * 参考资料
+>  * position文档：[https://developer.mozilla.org/zh-CN/docs/Web/CSS/position](https://developer.mozilla.org/zh-CN/docs/Web/CSS/position)
 
 * **你在开发或生产环境中使用过哪些 CSS 框架？你觉得应该如何改善他们？**
 * **请问你有尝试过 CSS Flexbox 或者 Grid 标准规格吗？**
@@ -335,16 +398,44 @@ In retrospect, the Web would have been better off by not having the distintion b
 > [flexbox知识](http://www.w3cplus.com/css3/a-guide-to-flexbox.html) , [grid知识](http://www.w3cplus.com/css3/line-base-placement-layout.html)
 > 内容比较多，需要仔细阅读
 
-* *为什么响应式设计 (responsive design) 和自适应设计 (adaptive design) 不同？*
+* **为什么响应式设计 (responsive design) 和自适应设计 (adaptive design) 不同？**
 
-> 响应式设计，load后怎么动都不会变化，除非重新open。自适应，load后，随着页面的变化自适应当前屏幕。*
+> * 区别
+>  * 响应式：你动他就动
+>  * 自适应：你动到一定程度它才动
+>  
+> * 应用场景
+>  * 如果你一些必须要支持的设备（例如：iphone6），其他方面可以不用特别关心。可用自适应
+>  * 如果你不确定市场上的设备的情况，响应式更适合你
+>  
+> * 优劣
+>  * 由于`你动他就动`的特性，布局实时变化产生页面的重排，性能比较低
+>  * 在不确定未来的设备会发展成什么样，他的适应能力更强
+>  * 相反的方向就是**自适应**的问题了
+>  
+> * 参考资料
+>  * 生动的图片区别：[https://css-tricks.com/the-difference-between-responsive-and-adaptive-design/](https://css-tricks.com/the-difference-between-responsive-and-adaptive-design/)
 
-* *你有兼容 retina 屏幕的经历吗？如果有，在什么地方使用了何种技术？*
 
-> 参考github retinajs项目，方式手动写，data-rjs，媒体查询
+* **你有兼容 retina 屏幕的经历吗？如果有，在什么地方使用了何种技术？**
 
-* *请问为何要使用 `translate()` 而非 *absolute positioning*，或反之的理由？为什么？*
-* *答：[js,css动画](https://segmentfault.com/q/1010000000645415 "js,css动画")*
+> * 由于在高清的环境下，图片被放大，需要更高的
+> * 修改方式：手动写，data-rjs，媒体查询
+> * 参考资料
+>  * 自动retina适应：[https://github.com/imulus/retinajs](https://github.com/imulus/retinajs)
+
+* **请问为何要使用 `translate()` 而非 *absolute positioning*，或反之的理由？为什么？**
+* 
+> * 原理
+>  * `translate`使用css动画，采用是GPU和单独的`compositor`处理，不在主线程处理，不会造成页面的动画效果阻塞
+>  * `absolute`利用js的主线程动画处理
+> 
+> * 优劣
+>  * translate动画性能更高，不会阻塞。在IE8以下不能使用
+>  * absolute兼容性好，但是在降级和事件支持比较累
+>  
+> * 参考资料
+>  * 区别回答：[https://segmentfault.com/q/1010000000645415](https://segmentfault.com/q/1010000000645415)
 
 #### <a name='js-questions'>JS 相关问题：</a>
 
