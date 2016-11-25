@@ -16,12 +16,6 @@
   1. [代码相关问题](#coding-questions)
   1. [趣味问题](#fun-questions)
 
-## 参与协作
-
-  1. [贡献者](#contributors)
-  1. [如何参与贡献](https://github.com/h5bp/Front-end-Developer-Interview-Questions/blob/master/CONTRIBUTING.md)
-  1. [许可协议](https://github.com/h5bp/Front-end-Developer-Interview-Questions/blob/master/LICENSE.md)
-
 #### <a name='general-questions'>常见问题：</a>
 
 * *你在昨天/本周学到了什么？*
@@ -295,7 +289,7 @@ In retrospect, the Web would have been better off by not having the distintion b
 * **如何优化网页的打印样式？**
 * 
 * **在书写高效 CSS 时会有哪些问题需要考虑？**
-
+11/15/2016 11:43:51 AM 
 > * 考虑两方面：性能，可维护性
 > * 性能：
 >  * 文件体积
@@ -425,7 +419,7 @@ In retrospect, the Web would have been better off by not having the distintion b
 >  * 自动retina适应：[https://github.com/imulus/retinajs](https://github.com/imulus/retinajs)
 
 * **请问为何要使用 `translate()` 而非 *absolute positioning*，或反之的理由？为什么？**
-* 
+
 > * 原理
 >  * `translate`使用css动画，采用是GPU和单独的`compositor`处理，不在主线程处理，不会造成页面的动画效果阻塞
 >  * `absolute`利用js的主线程动画处理
@@ -439,93 +433,234 @@ In retrospect, the Web would have been better off by not having the distintion b
 
 #### <a name='js-questions'>JS 相关问题：</a>
 
-* **请解释事件代理 (event delegation)。**
 * **请解释 JavaScript 中 `this` 是如何工作的。**
-* **请解释原型继承 (prototypal inheritance) 的原理。**
 
-> 《js高级程序设计》第六章，对象创建
-> 原型问题：引用对象属性共享
-> 类似问题：出现new Function问题，需要每次实例，如果提取出去一个方法，会造成全局函数占用的污染
->
+> * 原则
+>  * 指向当前执行的上下文环境
+>  * 多个环境，以就近上下文为准
+>  * `apply`和`call`调用以传入的对象为准
+>  * 注意区分严格模式的this特点
+>  
+> * 参考资料
+>  * 各种用法：[https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/this](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/this)
 
-* **你怎么看 AMD vs. CommonJS？ requirejs, seajs**
 
-> Commonjs：同步线性加载
-> AMD: 异步并发加载，依赖前置
->
-> CMD: 异步并发加载，就近依赖
->
-> UMD: 兼容其他三种方式，但是代码量大
->
-> 参考链接：[http://www.yl1001.com/group_article/8041472449293730.htm](http://www.yl1001.com/group_article/8041472449293730.htm)
+* **有哪些对象声明方式？有什么优劣？说明应用场景**
 
-* *请解释为什么接下来这段代码不是 IIFE (立即调用的函数表达式)：`function foo(){ }();`.*
-  * *要做哪些改动使它变成 IIFE?*
-* **描述以下变量的区别：`null`，`undefined` 或 `undeclared`？**
-  * **该如何检测它们？**
+> * 《js高级程序设计》第六章，对象创建
+> * 原型问题：引用对象属性共享
+> * 类似问题：出现new Function问题，需要每次实例，如果提取出去一个方法，会造成全局函数占用的污染
 
-> null: 表示不应该有对象，判断方法：
-> 1. 排除：排除0，false，undefined
-> 2. 全等: ===
+
+* **有哪些继承方式？有什么优劣？举例说明用途**
+
+* **你怎么看 AMD，CMD，UMD，CommonJS，ES6？ requirejs, seajs**
+
+> * 区别
+>  * AMD: 异步并发加载，依赖前置
+>  * CMD: 异步并发加载，就近依赖
+>  * UMD: 可以适应AMD、CMD和没有任何规范的加载方式，但是代码量大
+>  * Commonjs：采用同步加载机制，适合用在服务器
+>  * ES6：官方给出的最新标准，但是现在支持浏览器还不清楚
 >
->undefined: 缺少值，判断方法：typeof
+> * 参考资料
+>  * 具体写法：[http://www.yl1001.com/group_article/8041472449293730.htm](http://www.yl1001.com/group_article/8041472449293730.htm)
+
+* **请解释为什么接下来这段代码不是 IIFE (立即调用的函数表达式)：`function foo(){ }();`.要做哪些改动使它变成 IIFE?**
+
+> * 这段代码在执行时有歧义,它等同于下面的代码
+```javascript
+function foo(){}
+();
+```
+> * 如果把下面的代码修改成
+```javascript
+function foo()
+(function(){
+console.log('this is other expression')
+}());
+```
+> * 在执行这段代码的时候，解释器就没法理解应该怎么执行。
+>
+> * 原则
+>  * [立即调用]：告诉解释器现在就执行，例如：test()、表示符(!,+,-,&&),总之告诉解释器，你现在就用
+>  * [表达式]：告诉它的一个前提，你必须是表达式，下面的代码就不能执行
+```javascript
+function foo() {
+    console.log('foo');
+    return ['3'];
+}.toString();
+```
+>
+> * 参考资料
+>  * 立即调用和自执行区别：[http://www.cnblogs.com/TomXu/archive/2011/12/31/2289423.html](http://www.cnblogs.com/TomXu/archive/2011/12/31/2289423.html)
+
+* **描述以下变量的区别：`null`，`undefined` 或 `undeclared`？该如何检测它们？**
+
+> * 考点
+>  * 基本数据类型：Undefined, Null, Number, String, Boolean
+>  * 引用数据类型：Function, Object, Array
+>  
+> * 检验类型
+>  * 基本类型：`typeof`
+>  * 引用：`instanceof`
+>  
+> * 特殊
+>  * `null`在`typeof`下面是`Object`，在`instanceof`下面不属于`Object`，所以检测用两者结合。
+>  
+> * 注意
+>  * `null`: 表示不应该有对象
+>  * `undefined`：可以有值，但是还没有赋值
+>  * `undecleared`：没声明，直接用。造成语法错误
 
 * **什么是闭包 (closure)，如何使用它，为什么要使用它？**
 
-> 知识参考：[http://kb.cnblogs.com/page/110782/](http://kb.cnblogs.com/page/110782/)，[https://www.zhihu.com/question/19554716](https://www.zhihu.com/question/19554716)
+> * 用生活化比喻
+>  * 外层函数相当于**商场**
+>  * 里层函数相当于**售货员**
+>  * 保存的变量相当于**方便面**
+>  * 我们去**商场**的时候，只需要跟**售货员**说下，我们要**方便面**，他就可以拿出来，然后把方便面的数量修改
+>  * 其他人的理解：[http://kb.cnblogs.com/page/110782/](http://kb.cnblogs.com/page/110782/)[http://www.cnblogs.com/xiaotie/archive/2011/08/03/2126145.html](http://www.cnblogs.com/xiaotie/archive/2011/08/03/2126145.html)
+> * 注意
+>  * 只要符合里层函数可以直接在外边使用的方式，就可以当闭包来用，跟`return`没有什么关系，例如：用构造函数`this`或者`setTimeout`
+> * 参考资料
+>  * 官方解释及实用：[https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Closures](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Closures)
 
-* *请举出一个匿名函数的典型用例？*
-* *你是如何组织自己的代码？是使用模块模式，还是使用经典继承的方法？*
+* **请举出一个匿名函数的典型用例？**
+
+> * 闭包，函数绑定，模块封闭
+
+* **你是如何组织自己的代码？是使用模块模式，还是使用经典继承的方法？**
+
+
 * **请指出 JavaScript 宿主对象 (host objects) 和原生对象 (native objects) 的区别？**
+> * 区别：
+>  * 不依赖执行环境（浏览器或搭载环境），自身就带的对象
+>  * 根据执行环境的不同，提供不同的对象是宿主对象
+> * 参考资料
+>  * 官方解释：[http://es5.github.io/#x4.3.6](http://es5.github.io/#x4.3.6)
+>  * 图片阐述：[http://blog.csdn.net/foamflower/article/details/9165691](http://blog.csdn.net/foamflower/article/details/9165691)
+* **请指出以下代码的区别：`function Person(){}`、`var person = Person()`、`var person = new Person()`？**
 
-> [http://blog.sina.com.cn/s/blog_7122daac0100qg0i.html](http://blog.sina.com.cn/s/blog_7122daac0100qg0i.html)
+> * 名称
+>  * 函数声明
+>  * 函数表达式
+>  * 构造函数
+> * 区别
+>  * 函数声明在下载完之后，解释器优先读取，确保在执行之前已经被解析完成
+>  * 表达式等同于变量，只有用到的时候才开始解析
 
-* 请指出以下代码的区别：`function Person(){}`、`var person = Person()`、`var person = new Person()`？
-* *`.call` 和 `.apply` 的区别是什么？*
-* **请解释 `Function.prototype.bind`？**
+* **`.call` 和 `.apply`、`bind` 的区别是什么？**
+> * 区别
+>  * `call`和`apply`传入的参数形式不同
+>  * `bind` 需要再仔细研究
+> * 兼容性
+> 
+> * 参考资料
+>  * 官方`bind`解释：[https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/bind](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/bind)
 
-> [http://www.css88.com/archives/5611](http://www.css88.com/archives/5611)
 
 * **在什么时候你会使用 `document.write()`？**
 
-> [http://www.jb51.net/article/50684.htm](http://www.jb51.net/article/50684.htm)
+> * 使用场景
+>  * 在当前页面中新开窗口，对新窗口写入代码（现在用的很少）
+>  * 广告植入中，随着页面一起把代码输出到目标页面内
+>  
+> * 注意
+>  * 在页面`ready`之后，它会重写当前页面内容。阻断后续执行
+> * 参考资料
+>  * 植入广告优化：[http://www.jb51.net/article/50684.htm](http://www.jb51.net/article/50684.htm)
 
 * **请指出浏览器特性检测，特性推断和浏览器 UA 字符串嗅探的区别？**
 
-> 特性检测是更灵活的方式，更多的利用modernizr，$.support处理
+> * 区别
+>  * 特性检测：检查你要写的代码，在当前环境下是否可以执行，比如：`addEventListener`和`attachEvent`。类库:`odernizr`,`jQuery`自己使用`$.support`
+>  * 特性推断：在代码开始执行之前执行，如果有当前的这个特性，你就怎么处理，多用在**polyfill**
+>  * UA嗅探：1. 统计浏览器的数量和访问情况，不要求特别准确 2. 检测当前的设备，根据设备不同，进行DNS网站重定向
+>  * 参考资料：
+>   * 区别和UA代码：《js高级程序设计》第9章
 
-> UA的方式应用的情况：统计浏览器访问信息，检测应用设备上
+* **请尽可能详尽的解释 Ajax 的工作原理。使用 Ajax 都有哪些优劣？**
 
-* **请尽可能详尽的解释 Ajax 的工作原理。**
+> * 原理：
+>  * 利用`XMLHttpRequest`异步处理技术
+>  * 用`js`执行回调函数
+>  * `json`和`xml`、`text`对结果进行解析
+>  
+> * 相对于页面跳转特性
+>  * 无刷新数据交互
+>  
+> * 牺牲功能
+>  * 无法进行跨域`POST`请求
+>  * SEO 无法处理
+>  
+> * 弥补方式
+>  * 使用CORS，进行跨域访问`POST`
+>  * 结合`pushstate`技术，解决SEO问题
+> * **这些H5的特性，市场的大体兼容性差**
 
-> 利用`XMLHttpRequest`异步处理技术，用`js`执行回调函数，`xml`解析结果
-
-* *使用 Ajax 都有哪些优劣？*
-* *请解释 JSONP 的工作原理，以及它为什么不是真正的 Ajax。*
-* **你使用过 JavaScript 模板系统吗？**
-  * **如有使用过，请谈谈你都使用过哪些库？**
+* **你使用过 JavaScript 模板系统吗？如有使用过，请谈谈你都使用过哪些库？**
 
 > 同`你用过哪些不同的 HTML 模板语言`的答案
 
-* *请解释变量声明提升 (hoisting)。*
-* *请描述事件冒泡机制 (event bubbling)。*
-* **"attribute" 和 "" 的区别是什么？**
 
-> attribute理解为特性，用nodenameMap形式存储，处理一些自定义属性
->
-> property理解为属性，在dom级别，不能被添加的，可以赋值。
->
-> 区别：attribute没有值是undefined，property没有值是空字符串
+* **请描述事件冒泡机制 (event bubbling)和捕获机制的不同**
 
-* *为什么扩展 JavaScript 内置对象不是好的做法？*
-* *请指出 document load 和 document DOMContentLoaded 两个事件的区别。*
+> * 执行方式
+>  * 冒泡：从目标阶段到document，向上
+>  * 捕获：从document到到目标阶段，向下
+> * 
+
+* **"attribute" 和 "property" 的区别是什么？**
+
+> * 特性
+>  * `attribute`理解为特性，用`nodenameMap`形式存储，在HTML标签上，只能以字符串形式存在
+>  * `property`理解为属性，直接存在于DOM对象上，是浏览器自带的。
+
+> * 细节
+> * 当同一个属性名都不存在是，`attribute`的值是`null`，`property`的值是`undefined`，处理的机制不同（`null`,`undefined`区别，见上面）
+> 
+> * attibute 和 property 同时存在一个相同的属性名时
+>> **修改attribute时，自动与property同步的条件**
+>>
+>> 1. 属性名是`property`默认就存在
+>> 1. `property`的属性值是可修改
+>>
+>> **修改`property`时，自动与`attribute`同步的条件**
+>>
+>> 1. 属性名是`property`默认就存在
+>
+> * 注意
+>  * property的属性是经过浏览器内部（拼接或者可选值处理），有些情况下会与attribute（写什么就是什么）结果不一致，例如
+>  * `href`属性，在`property`是绝对路径或者域名，在`attribute`里就是赋值的字符串
+>  * `checked`属性，在`property`里是true或false，在`attribute`同样是字符串
+>  
+> * 参考资料
+>  * 进行了实验，但没有总结：[http://www.codeceo.com/article/javascript-property-attribute.html](http://www.codeceo.com/article/javascript-property-attribute.html)
+
+* **请指出 document load 和 document DOMContentLoaded 两个事件的区别。**
+
+> * 区别
+>  * DOMcontentLoaded在页面加载完成之后就会触发
+>  * load在所有资源加载完毕之后才会触发
+> * 细节，以`chrome`做实验
+>  * 每个浏览器的加载`css`，`img`，`js`都是不同（有的按照类型[img,js,css]分，有的按照`head`分）
+>  * 所有浏览器的原则都是先执行完当前页面内容，之后再去执行外部内容，（同类型的情况下）
+>  * head里的`js`，`css`资源如果不能被加载会阻塞后续页面的渲染，`img`不会
+> * 总结
+>  * `css`、`js`属于阻塞类资源，`img`不是
+>  * 首次加载资源越少，速度越快
+
+
 * **`==` 和 `===` 有什么不同？ 关于数据类型的检测**
 
-> `0`,`undefined`,`false`,`null` ==
->
-> `typeof`基本类型检测, `instanceof`引用类型检测
+> * `0`,`undefined`,`false`,`null` ==
+> * `typeof`基本类型检测, `instanceof`引用类型检测
 
 * **请解释 JavaScript 的同源策略 (same-origin policy)。**
+
+> 参考资料：[http://www.freebuf.com/articles/web/65468.html](http://www.freebuf.com/articles/web/65468.html)
+
 * **如何实现下列代码：**
 ```javascript
 [1,2,3,4,5].duplicator(); // [1,2,3,4,5,1,2,3,4,5]
@@ -542,26 +677,35 @@ In retrospect, the Web would have been better off by not having the distintion b
 
 * **什么是三元表达式 (Ternary expression)？“三元 (Ternary)” 表示什么意思？**
 
-> 三元运算符
+> * 一元：++i
+> * 二元：a+b
+> * 三元：c?a:b
+> * 通过三个操作数，产生一个结果
 
 * **什么是 `"use strict";` ? 使用它的好处和坏处分别是什么？**
 
 > [https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Strict_mode](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Strict_mode)
 
-* *请实现一个遍历至 `100` 的 for loop 循环，在能被 `3` 整除时输出 **"fizz"**，在能被 `5` 整除时输出 **"buzz"**，在能同时被 `3` 和 `5` 整除时输出 **"fizzbuzz"***。
 * **为何通常会认为保留网站现有的全局作用域 (global scope) 不去改变它，是较好的选择？**
 * **为何你会使用 `load` 之类的事件 (event)？此事件有缺点吗？你是否知道其他替代品，以及为何使用它们？**
-* *请解释什么是单页应用 (single page app), 以及如何使其对搜索引擎友好 (SEO-friendly)。*
+
 * **What is the extent of your experience with Promises and/or their polyfills?**
 * **使用 Promises 而非回调 (callbacks) 优缺点是什么？**
+* 
 * **使用一种可以编译成 JavaScript 的语言来写 JavaScript 代码有哪些优缺点？**
+
+
 * *你使用哪些工具和技术来调试 JavaScript 代码？ 前端：F12,fiddler.后端：insprecct*
 * **你会使用怎样的语言结构来遍历对象属性 (object properties) 和数组内容？**
 * **请解释可变 (mutable) 和不变 (immutable) 对象的区别。**
   * **请举出 JavaScript 中一个不变性对象 (immutable object) 的例子？**
   * **不变性 (immutability) 有哪些优缺点？**
   * **如何用你自己的代码来实现不变性 (immutability)？**
+
+> * 研究react框架时在深入学习
+
 * 请解释同步 (synchronous) 和异步 (asynchronous) 函数的区别。
+* 
 * **什么是事件循环 (event loop)？**
   * **请问调用栈 (call stack) 和任务队列 (task queue) 的区别是什么？**
 
@@ -574,55 +718,111 @@ In retrospect, the Web would have been better off by not having the distintion b
 
 #### <a name='testing-questions'>测试相关问题：</a>
 
-* **对代码进行测试的有什么优缺点？**
+* **对代码进行测试的有什么优缺点？单元测试与功能/集成测试的区别是什么？**
 
-> 优点：1. 保证代码质量，在代码量大的时候保证效率不会降低
-> 缺点：1. 需要编写测试用例，设计测试思路。花费一些时间
+> * 优点：
+>  * 单元测试，保证自己代码在内部执行正确
+>  * 功能测试，在项目内部功能可以正确的运行
+>  * 集成测试，在与其他项目整合时，确保兼容性，执行性能满足业务要求
+>  
+> * 缺点：
+>  * 写测试之前，需要清除场景的边界，考虑问题需要比较深入。对于需求还不清晰的项目，造成阻碍
+>  * 从设计到实施，需要一定的时间成本和技术选择，投入产出比不好控制
 
 * **你会用什么工具测试你的代码功能？**
 
-> 稳定的部分：
-> 单元测试：karma,mocha,intern,coverage
-> UI测试：phamtomjs,selenium,webdriver
+> * 代码比较稳定（工具类应用）：
+>> * 单元测试
+>>  * `karma` 自动化运行器
+>>  * `mocha`,`jasmine`,`theintern`单元测试框架
+>>  * `coverage` 代码覆盖率
+>> * UI测试
+>>  * `phamtomjs` 无界面浏览器，用来测试功能是否正确
+>>  * `webdriver2` 测试驱动器，主要用来测试兼容性
 >
-> 不稳定部分：
-> 单元测试：基本略过
-> UI测试：手工暴力测试，差异监控
-> 参考链接：[https://www.zhihu.com/question/29922082](https://www.zhihu.com/question/29922082)
-
-* **单元测试与功能/集成测试的区别是什么？**
-* *代码风格 linting 工具的作用是什么？*
+> * 不稳定页面（活动类）：
+>  * UI测试：手工测试，差异监控（为了减少重复手工测试工作量）
+>  
+> * 参考链接
+>  * 两种类型的说明：[https://www.zhihu.com/question/29922082](https://www.zhihu.com/question/29922082)
 
 #### <a name='performance-questions'>效能相关问题：</a>
 
 * 你会用什么工具来查找代码中的性能问题？
 
-> [http://fex.baidu.com/blog/2014/05/build-performance-monitor-in-7-days/](http://fex.baidu.com/blog/2014/05/build-performance-monitor-in-7-days/)
+> * 参考资料
+>  * 百度前端监控讲解：[http://fex.baidu.com/blog/2014/05/build-performance-monitor-in-7-days/](http://fex.baidu.com/blog/2014/05/build-performance-monitor-in-7-days/)
 
-* 你会用什么方式来增强网站的页面滚动效能？
-* 请解释 layout、painting 和 compositing 的区别。
+* **你会用什么方式来增强网站的页面滚动效能？**
+
+> * 针对Safari处理
+>  * 在safari的下面，使用`-webkit-overflow-scrolling`可以避免页面滚动的卡顿问题
+>  * 但是在之前的浏览器中，存在`scroll`不能实时触发（现在已经解决了）。之前吐槽的文章：[https://fe.ele.me/momentum-scrolling-on-ios/](https://fe.ele.me/momentum-scrolling-on-ios/)
+>  
+> * 跨浏览器统一效果
+>  * 使用`div`代替滚动条，利用`absolute`做到效果统一
+>  * 使用iscroll实现的方式
+
+* **请解释 layout、painting 和 compositing 的区别**
+
+> * 名称，作用
+>  * layout(重排)计算大小，位置
+>  * paint(重绘) 背景色，文字，边框之类的效果
+>  * compositing(渲染合并) 把在不同层渲染出的结果，合并到一个图层
+>  
+> * 过程
+>  * js操作DOM > css样式结算 > layout > paint > compsiting
+>  
+> * 说明
+>  * 在渲染时，经过的层数越少，性能越高。
+>  * 在compsiting的属性，只有opacity和transfrom两个
+>  * 从过程图中也能明显的体现，js的动画比css动画性能差的一个原因
+> * 参考资料
+>  * 介绍过程图：[https://developers.google.com/web/fundamentals/performance/rendering/?hl=zh-cn](https://developers.google.com/web/fundamentals/performance/rendering/?hl=zh-cn)
+>  * compsiting过程图解（图示浏览器有点老）：[https://developers.google.com/web/fundamentals/performance/rendering/stick-to-compositor-only-properties-and-manage-layer-count?hl=zh-cn](https://developers.google.com/web/fundamentals/performance/rendering/stick-to-compositor-only-properties-and-manage-layer-count?hl=zh-cn)
 
 #### <a name='network-questions'>网络相关问题：</a>
 
-* 为什么传统上利用多个域名来提供网站资源会更有效？
-* 请尽可能完整得描述从输入 URL 到整个网页加载完毕及显示在屏幕上的整个流程。
-* *Long-Polling、Websockets 和 Server-Sent Event 之间有什么区别？*
+* **为什么传统上利用多个域名来提供网站资源会更有效？**
 
-> 参考链接：[http://www.ibm.com/developerworks/cn/web/1307_chengfu_serversentevent/](http://www.ibm.com/developerworks/cn/web/1307_chengfu_serversentevent/)
+> * 因为不同浏览器对同一域名的并行下载限制在8以内，多个域名下载可以突破这种限制
+> 
+> * 域名越多越好？
+>  * 浏览器对于在短时间请求多个域名是有限制的（具体超过多少还没找到资料），超过一定数量，域名的DNS解析会被丢弃
+>  
+> * 其他说法
+>  * (域名过多，DNS解析需要时间所以反而会降低性能)，这个说法已经过时，现在的DNS多数都是0.005~8ms以内
+>  
+> * 参考资料
+>  * 多方面说明：[https://www.zhihu.com/question/20474326](https://www.zhihu.com/question/20474326)
 
-* **为什么websocket会比较复杂？**
+* **请尽可能完整得描述从输入 URL 到整个网页加载完毕及显示在屏幕上的整个流程**
 
-> 看过的人家的吐槽，但是还是不知道复杂在哪，需要试一下
-> 参考链接：[http://www.data321.com/webqianduan/2016069014/websocketjiumeiyoudailairenhede](http://www.data321.com/webqianduan/2016069014/websocketjiumeiyoudailairenhede)
+> url > dns > ip > site
+> 加载dom > 加载js,css,img > 
+> 执行js，css ，执行layout > 构建dom树 > paint > compsiting > render树 
 
-* 请描述以下 request 和 response headers：
+* **Long-Polling、Websockets 和 Server-Sent Event 之间有什么区别？**
+
+> * Long-plling，用http方式实现，但是对于服务器的压力比较大
+> * websocket，基于最新的协议，实现效果好。但仍然存在兼容性问题
+> * server-sent，是浏览器主动推送，跟浏览器相关属性，只要打开浏览器就可以接收信息
+>
+> * 参考链接
+>  * server-sent讲解：[http://www.ibm.com/developerworks/cn/web/1307_chengfu_serversentevent/](http://www.ibm.com/developerworks/cn/web/1307_chengfu_serversentevent/)
+>  * websocket实现：[https://www.zhihu.com/question/20215561](https://www.zhihu.com/question/20215561)
+>  * websocket吐槽，实用应用：[http://www.data321.com/webqianduan/2016069014/websocketjiumeiyoudailairenhede](http://www.data321.com/webqianduan/2016069014/websocketjiumeiyoudailairenhede)
+
+* **请描述以下 request 和 response headers**
   * Diff. between Expires, Date, Age and If-Modified-...
   * Do Not Track
   * Cache-Control
   * Transfer-Encoding
   * ETag
   * X-Frame-Options
-* 什么是 HTTP method？请罗列出你所知道的所有 HTTP method，并给出解释。
+
+
+* **什么是 HTTP method？请罗列出你所知道的所有 HTTP method，并给出解释**
 
 > OPTIONS: 请求确实是否允许连接
 > GET,POST
@@ -634,48 +834,55 @@ In retrospect, the Web would have been better off by not having the distintion b
 
 #### <a name='coding-questions'>代码相关的问题：</a>
 
-*问题：`foo`的值是什么？*
+**问题：`foo`的值是什么？**
 ```javascript
 var foo = 10 + '20';
 ```
 
-> 1020
-> 考点：类型优先级，位操作符
-> 参考：《高级程序设计》3.5章
+> * 1020
+> * 考点：类型优先级，位操作符
+> * 参考：《高级程序设计》3.5章
 
-*问题：如何实现以下函数？*
+**问题：如何实现以下函数？**
 ```javascript
 add(2, 5); // 7
 add(2)(5); // 7
 ```
 
-*问题：下面的语句的返回值是什么？*
+> * 考点
+>  * 闭包，函数输出调用，参数传递方式
+```javascript
+function add() {
+    var result = 0,
+    m;
+    m = function() {
+        var i, len;
+        len = arguments.length;
+        if (len > 0) {
+            i = len;
+            while (i) {
+                result += arguments[i - 1];
+                i--;
+            }
+            return m;
+        }
+    };
+    m.apply(this, arguments);
+    m.toString = m.valueOf = function() {
+        return result;
+    }
+    return m;
+}
+```
+
+**问题：下面的语句的返回值是什么？**
 ```javascript
 "i'm a lasagna hog".split("").reverse().join("");
 ```
 
-*问题：`window.foo`的值是什么？*
-```javascript
-( window.foo || ( window.foo = "bar" ) );
+> * 考点：数组和字符串方法掌握熟练度
 ```
-
-*问题：下面两个 alert 的结果是什么？*
-```javascript
-var foo = "Hello";
-(function() {
-  var bar = " World";
-  alert(foo + bar);
-})();
-alert(foo + bar);
-```
-
-> 报错，因为bar没有定义
-
-*问题：`foo.length`的值是什么？*
-```javascript
-var foo = [];
-foo.push(1);
-foo.push(2);
+it do can i sorry i'm
 ```
 
 *问题：`foo.x`的值是什么？*
@@ -685,17 +892,10 @@ var bar = foo;
 foo.x = foo = {n: 2};
 ```
 
-> `undefined` 跟内存的指向有关系
-> 参考地址：[http://stackoverflow.com/questions/34933210/why-is-the-value-of-foo-x-undefined-in-foo-x-foo-n-2](http://stackoverflow.com/questions/34933210/why-is-the-value-of-foo-x-undefined-in-foo-x-foo-n-2)
-
-*问题：下面代码的输出是什么？*
-```javascript
-console.log('one');
-setTimeout(function() {
-  console.log('two');
-}, 0);
-console.log('three');
-```
+> * ```undefined``` 
+> * 在执行期间，先进行寻址在赋值，寻址的结果是bar指向的对象
+> * 参考资料
+>  * 解释执行过程：[http://stackoverflow.com/questions/34933210/why-is-the-value-of-foo-x-undefined-in-foo-x-foo-n-2](http://stackoverflow.com/questions/34933210/why-is-the-value-of-foo-x-undefined-in-foo-x-foo-n-2)
 
 #### <a name='fun-questions'>趣味问题：</a>
 
@@ -711,8 +911,3 @@ console.log('three');
 
 * 补充知识：
 * [https://zhuanlan.zhihu.com/p/20002850?columnSlug=FrontendMagazine](https://zhuanlan.zhihu.com/p/20002850?columnSlug=FrontendMagazine)
-#### <a name='contributors'>贡献者：</a>
-
-本文档始于 2009 年，是以下作者的合作成果：[@paul_irish](https://twitter.com/paul_irish) [@bentruyman](https://twitter.com/bentruyman) [@cowboy](https://twitter.com/cowboy) [@ajpiano](https://twitter.com/ajpiano) [@SlexAxton](https://twitter.com/slexaxton) [@boazsender](https://twitter.com/boazsender) [@miketaylr](https://twitter.com/miketaylr) [@vladikoff](https://twitter.com/vladikoff) [@gf3](https://twitter.com/gf3) [@jon_neal](https://twitter.com/jon_neal) [@sambreed](https://twitter.com/sambreed) 和 [@iansym](https://twitter.com/iansym)。
-
-时至今日，文档已经融入超过 [100 位开发者](https://github.com/h5bp/Front-end-Developer-Interview-Questions/graphs/contributors)的贡献。
