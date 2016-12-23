@@ -289,7 +289,6 @@ In retrospect, the Web would have been better off by not having the distintion b
 * **如何优化网页的打印样式？**
 * 
 * **在书写高效 CSS 时会有哪些问题需要考虑？**
-11/15/2016 11:43:51 AM 
 > * 考虑两方面：性能，可维护性
 > * 性能：
 >  * 文件体积
@@ -447,12 +446,110 @@ In retrospect, the Web would have been better off by not having the distintion b
 
 * **有哪些对象声明方式？有什么优劣？说明应用场景**
 
-> * 《js高级程序设计》第六章，对象创建
-> * 原型问题：引用对象属性共享
-> * 类似问题：出现new Function问题，需要每次实例，如果提取出去一个方法，会造成全局函数占用的污染
+> * 构造函数
+>> * **缺点**：方法属于共享型，没有必须要总是创建实例
+>> * **应用**：属性对象单独存储，不共享
+>
+> * 原型
+>> * **缺点**：prototype信息都是共享
+>> * **应用**：对象方法共享时
+
+
+> * 原型与构造函数组合
+>> * 结合两者的优点，是最常用的声明方式
+>> * **注意点**： 在重写prototype时，contrustor需要重新指向
+>> * **应用**：在自定义的对象上进行属性，方法扩展
+> 
+> * 寄生
+>> * **应用**：对于某些对象需要暂时性的扩展，但不希望影响到原始对象的情况
+>> * 例如：对于一个数组对象加个自定义的拼接方法，但是不在数组对象上添加。
+
+```javascript
+function ArrayInstanceExtend(){
+    var o = [];
+    o.push.apply(o,arguments);
+    o.insertFirst = function(insertValue){
+        this.splice(0,0,insertValue);
+        return this.concat();
+    }
+    return o;
+}
+var x = new ArrayInstanceExtend('lisi');
+x.insertFirst('zhangsan');
+console.log(x.insertFirst('wangwu'));
+```
+
+> * 稳妥
+>> * 避免使用this和new，防止被数据篡改
+>> * **特殊**: 本人在实际编程中还没有遇到使用这个方式的情况
+
 
 
 * **有哪些继承方式？有什么优劣？举例说明用途**
+
+> * 原型
+> * **优点**：解决了共享属性，方法的传递
+> 
+> * 借用构造函数
+> * **优点**：解决了实例属性的传递
+> 
+> * 组合原型和借用构造函数
+
+```javascript
+function Parent(name, friends) {
+    this.name = name;
+    this.friends = friends;
+}
+Parent.prototype = {
+    constructor: Parent,
+    addFriend: function(friendName) {
+        this.friends.push(friendName);
+    },
+    getFriends: function() {
+        return this.friends;
+    }
+}
+function Child(toy,name,friends) {
+    this.toy = toy;
+    Parent.call(this, name, friends);
+}
+Child.prototype = new Parent();
+Child.prototype.getToys = function() {
+    return this.toy;
+}
+Child.prototype.buyToy = function(toyName) {
+    this.toy.push(toyName);
+}
+var xiaohai = new Child(['car'],'zhangsan',['lisi','wangwu']);
+xiaohai.buyToy('air');
+xiaohai.addFriend('zhaoliu');
+var tom = new Child(['ship'],'tom',['jerry','jake']);
+tom.buyToy('bike');
+tom.addFriend('obama');
+``` 
+> * **缺点**：在new Parent时，会调用一次构造函数，Parent.call时又调了一次构造函数。同样的属性，一个放在原型里，一个放在构造函数里（实例属性），造成性能的浪费
+
+> * 原型式
+> * 寄生式
+> * 组合原型式和寄生
+
+```javascript
+function inherit(subType, superType) {
+    var tmp = clone(superType.prototype);
+    subType.prototype = tmp;
+    subType.prototype.constructor = subType;
+}
+function clone(o) {
+    function F() {}
+    F.prototype = o;
+    return new F();
+}
+```
+
+> * 借用中间函数的方式，让父级不在重新声明
+>
+> * **总结**：在父子的原型传递过程中，必须用父级的副本来继承。如果使用`child.prototype = parent.prototype`,父子级的方法会互相影响，产生共享的形式。给父级带来很多问题
+
 
 * **你怎么看 AMD，CMD，UMD，CommonJS，ES6？ requirejs, seajs**
 
@@ -689,11 +786,44 @@ function foo() {
 * **为何通常会认为保留网站现有的全局作用域 (global scope) 不去改变它，是较好的选择？**
 * **为何你会使用 `load` 之类的事件 (event)？此事件有缺点吗？你是否知道其他替代品，以及为何使用它们？**
 
-* **What is the extent of your experience with Promises and/or their polyfills?**
+> * `load`使用的情景
+>  * 在页面所有资源都加载完毕之后，在动态加载之前，需要执行
+>  * 在多个资源全部都完成之后，例如：有10个`js`，3个`css`，5个`img`完成之后，需要执行
+>  
+> * `load`触发条件，必须所有的资源全部加载完毕才能执行，如果一个资源没有加载完毕，后续的工作都不能进行，造成页面假死
+> 
+> * 改进
+>  * 对于资源的加载完毕，多数情况下指js和css文件，通常会使用ready去代替。特点：执行更早，对于img资源无须等待
+>  * 对于指定某些资源加载完毕就执行，可以用事件监听和`promise`的`all`共同处理
+
 * **使用 Promises 而非回调 (callbacks) 优缺点是什么？**
-* 
+ 
+> * **什么是promise？为什么要有它？** 为了解决回调函数不断的问题，造成代码可读性极差的问题，(例如：[http://www.kuaidadi.com/assets/js/animate.js](http://www.kuaidadi.com/assets/js/animate.js)),一种方式或者名称
+> 
+> * **它是怎么解决的？** 其解决的方式：让回调的方法以链式调用的方式传递
+> 
+> * **怎么实现它？** 可以用多种方式实现，利用`callback`或在`ES6`的环境中使用内置的`Promise`语法
+> 
+> * **它有什么缺点吗?**
+>  * 在浏览器端存在兼容性问题，在不支持`ES6`的环境中
+>  * 它的解决方式相比以前的写法已经有了很大的改变，但是总是`new Promise`的语法还是比较复杂，同时在一些环境下，还是不能完美的解决。新的代替方式`async`和`await`可简洁的代替它，但是还需要`ES7`支持
+>  
+> * 参考资料
+>  * 手把手教你实现`Promise`：[https://75team.com/post/how-to-convert-callback-to-promise.html](https://75team.com/post/how-to-convert-callback-to-promise.html)
+>  * 另一个实现教程：[http://www.tuicool.com/articles/RzQRV3](http://www.tuicool.com/articles/RzQRV3)
+>  * 代码研究：[https://github.com/stackp/promisejs](https://github.com/stackp/promisejs)
+>  * promise的多种实现方式简介：[https://www.zhihu.com/question/25413141](https://www.zhihu.com/question/25413141)
+>  * 官方语法：[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+>  * 代替Promise的更好方式：[http://www.tuicool.com/articles/ZZnuQzZ](http://www.tuicool.com/articles/ZZnuQzZ)
+
 * **使用一种可以编译成 JavaScript 的语言来写 JavaScript 代码有哪些优缺点？**
 
+> * 优点
+>  * 语法统一，不必考虑执行标准的问题
+>  * 错误提示与检查，让不合理的代码死在编辑阶段
+>  
+> * 劣势
+>  * 语法学习成本
 
 * *你使用哪些工具和技术来调试 JavaScript 代码？ 前端：F12,fiddler.后端：insprecct*
 * **你会使用怎样的语言结构来遍历对象属性 (object properties) 和数组内容？**
@@ -911,3 +1041,10 @@ foo.x = foo = {n: 2};
 
 * 补充知识：
 * [https://zhuanlan.zhihu.com/p/20002850?columnSlug=FrontendMagazine](https://zhuanlan.zhihu.com/p/20002850?columnSlug=FrontendMagazine)
+* 如果利用js内部机制进行引用类型复制
+```javascript
+var x = ['1'];
+var y = [];
+y.push(x);
+x = ['2'];
+```
