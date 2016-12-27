@@ -56,10 +56,11 @@
 >
 > * 这些模式都是基于`SGML`标准的声明，这些标准是它的一个衍生分支
 > * H5已经不再遵循`SGML`标准，所有不需要在声明这些标准。
-> 
+>
 > * **后续产生的问题：`SGML`是什么？H5不再遵循它的标准，H5现在按照什么标准执行的？为什么不遵循了？有什么新特性？**
 
 * **浏览器标准模式 (standards mode) 、几乎标准模式（almost standards mode）和怪异模式 (quirks mode) 之间的区别是什么？**
+
 > * 几乎标准模式，是现在多数浏览器实现的一种方式，原文：
 > `Firefox, Safari, Chrome, Opera (since 7.5), IE8, IE9 and IE10 also have a mode known as “the Almost Standards mode”, which implements the vertical sizing of table cells traditionally and not according to the CSS2 specification. Mac IE 5, Windows IE 6 and 7, Opera prior to 7.5 and Konqueror did not need an Almost Standards mode, because they didn’t implement the vertical sizing of table cells according to the CSS2 specification in their respective Standards modes anyway. In fact, their Standards modes are closer to the Almost Standards mode than to the Standards mode of newer browsers.
 In retrospect, the Web would have been better off by not having the distintion between Standards and Almost Standards, having the Almost Standards behavior as the default and having a CSS property for opting into the behavior that is the default in the Standards mode. Still, you should use the Standards mode—not the Almost Standard mode.`
@@ -68,7 +69,7 @@ In retrospect, the Web would have been better off by not having the distintion b
 >   * 标准把`content width/height` 作为`element width/height`
 >   * 怪异把`content width/height + border + padding` 作为 `element width/height`
 >  * `js`方面：
->   * IE浏览器下面的`document.all`属性 
+>   * IE浏览器下面的`document.all`属性
 >   
 > * **通知**浏览器使用什么模式方法：
 >  * `doctype`声明，告诉浏览器解析标准，在声明和不同的浏览器的双重作用下，执行的标准是不同的，具体的参考表：[https://hsivonen.fi/doctype/](https://hsivonen.fi/doctype/)
@@ -81,7 +82,7 @@ In retrospect, the Web would have been better off by not having the distintion b
 > * **题外提示**：
 > * 国内的浏览器通过`renderer`标签，调用不同的内核渲染
 > * `<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">`告诉浏览器调用内核标准的等级,针对IE浏览器
-> 
+>
 > * **总结**：两种方法结合优先使用，`doctype`解决大多数浏览器的标准问题，`box-sizing`解决浏览器中`form`中元素盒模型不统一的问题。
 > * **参考资源**：
 > * 标准和怪异模式区分doctype：[http://www.frontopen.com/1385.html](http://www.frontopen.com/1385.html)
@@ -92,6 +93,7 @@ In retrospect, the Web would have been better off by not having the distintion b
 > * XHTML更符合`XML`的写法，需要闭合标签，HTML要求没有那么严格，解析会自行闭合标签。
 
 * **如果页面使用 'application/xhtml+xml' 会有什么问题吗？**
+
 > * **好处**：
 > * 在语法出现错误时，网页中会提示具体哪行代码错误，方便网页调整。帮助开发者确认语法是否正确js，css都有
 > * **缺点**：
@@ -107,7 +109,7 @@ In retrospect, the Web would have been better off by not having the distintion b
 >  * 代码内的文本，提示信息
 >  * 与后台交互反馈的文本处理
 >  * 多个js同时维护的成本
-> 
+>
 > * SEO处理：
 >  * `lang`声明处理
 >  
@@ -163,7 +165,7 @@ In retrospect, the Web would have been better off by not having the distintion b
 > | ------- |:-------:| -------:|
 > | 立即执行 |   正常   |  defer  |
 > | 延后执行 |  async  |         |
-> 
+>
 > * 代码执行顺序：defer > DOMContentLoaded > async > load
 > * 在`requirejs`中，利用`async`的特性，后续加载时用到了async
 > * `defer`不存在兼容性问题，`async`是h5的新属性
@@ -207,7 +209,7 @@ In retrospect, the Web would have been better off by not having the distintion b
 
 > * `float`属于流里面的特殊类型（总共三种类型：普通，浮动，绝对定位）
 > * 特性：
->  * 它会在流里面产生向左或向右的浮动，同时与普通的内联元素影响，产生被包围的效果 
+>  * 它会在流里面产生向左或向右的浮动，同时与普通的内联元素影响，产生被包围的效果
 >  * 改变原始元素`display`属性，变为块级元素
 > * 缺陷：
 >  * 其他块级元素会无视这个元素，造成遮盖的情况
@@ -239,7 +241,7 @@ In retrospect, the Web would have been better off by not having the distintion b
 
 * **请解释 CSS sprites，以及你要如何在页面或网站中实现它。**
 
-> * 把多张图片压缩至一张图片内，好处很多。自行百度吧 
+> * 把多张图片压缩至一张图片内，好处很多。自行百度吧
 > * 实现工具：
 >  * 腾讯：[http://www.99css.com/1524/](http://www.99css.com/1524/)
 >  * grunt下：[https://github.com/Ensighten/grunt-spritesmith](https://github.com/Ensighten/grunt-spritesmith)
@@ -262,7 +264,7 @@ In retrospect, the Web would have been better off by not having the distintion b
 >  * 还没有想好...
 
 * **你会如何解决特定浏览器的样式问题？**
-* 
+*
 * **如何为有功能限制的浏览器提供网页？**
   * **你会使用哪些技术和处理方法？**
 
@@ -285,9 +287,9 @@ In retrospect, the Web would have been better off by not having the distintion b
 > 参考链接：[http://www.zhangxinxu.com/wordpress/2015/02/css-deep-understand-flow-bfc-column-two-auto-layout/](http://www.zhangxinxu.com/wordpress/2015/02/css-deep-understand-flow-bfc-column-two-auto-layout/)
 
 * **你熟悉 SVG 样式的书写吗？**
-* 
+*
 * **如何优化网页的打印样式？**
-* 
+*
 * **在书写高效 CSS 时会有哪些问题需要考虑？**
 > * 考虑两方面：性能，可维护性
 > * 性能：
@@ -377,6 +379,7 @@ In retrospect, the Web would have been better off by not having the distintion b
 > * 内联元素和块级元素区别：[https://developer.mozilla.org/zh-CN/docs/Web/HTML/Inline_elemente](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Inline_elemente)
 
 * **请解释 relative、fixed、absolute 和 static 元素的区别**
+
 > * 特性
 >  * 定位元素：relative、fixed、absolute
 >  * static属于非定位元素，left,top,z-index不会起作用
@@ -422,7 +425,7 @@ In retrospect, the Web would have been better off by not having the distintion b
 > * 原理
 >  * `translate`使用css动画，采用是GPU和单独的`compositor`处理，不在主线程处理，不会造成页面的动画效果阻塞
 >  * `absolute`利用js的主线程动画处理
-> 
+>
 > * 优劣
 >  * translate动画性能更高，不会阻塞。在IE8以下不能使用
 >  * absolute兼容性好，但是在降级和事件支持比较累
@@ -459,7 +462,7 @@ In retrospect, the Web would have been better off by not having the distintion b
 >> * 结合两者的优点，是最常用的声明方式
 >> * **注意点**： 在重写prototype时，contrustor需要重新指向
 >> * **应用**：在自定义的对象上进行属性，方法扩展
-> 
+>
 > * 寄生
 >> * **应用**：对于某些对象需要暂时性的扩展，但不希望影响到原始对象的情况
 >> * 例如：对于一个数组对象加个自定义的拼接方法，但是不在数组对象上添加。
@@ -489,10 +492,10 @@ console.log(x.insertFirst('wangwu'));
 
 > * 原型
 > * **优点**：解决了共享属性，方法的传递
-> 
+>
 > * 借用构造函数
 > * **优点**：解决了实例属性的传递
-> 
+>
 > * 组合原型和借用构造函数
 
 ```javascript
@@ -526,7 +529,7 @@ xiaohai.addFriend('zhaoliu');
 var tom = new Child(['ship'],'tom',['jerry','jake']);
 tom.buyToy('bike');
 tom.addFriend('obama');
-``` 
+```
 > * **缺点**：在new Parent时，会调用一次构造函数，Parent.call时又调了一次构造函数。同样的属性，一个放在原型里，一个放在构造函数里（实例属性），造成性能的浪费
 
 > * 原型式
@@ -631,12 +634,14 @@ function foo() {
 
 
 * **请指出 JavaScript 宿主对象 (host objects) 和原生对象 (native objects) 的区别？**
+
 > * 区别：
 >  * 不依赖执行环境（浏览器或搭载环境），自身就带的对象
 >  * 根据执行环境的不同，提供不同的对象是宿主对象
 > * 参考资料
 >  * 官方解释：[http://es5.github.io/#x4.3.6](http://es5.github.io/#x4.3.6)
 >  * 图片阐述：[http://blog.csdn.net/foamflower/article/details/9165691](http://blog.csdn.net/foamflower/article/details/9165691)
+
 * **请指出以下代码的区别：`function Person(){}`、`var person = Person()`、`var person = new Person()`？**
 
 > * 名称
@@ -648,11 +653,12 @@ function foo() {
 >  * 表达式等同于变量，只有用到的时候才开始解析
 
 * **`.call` 和 `.apply`、`bind` 的区别是什么？**
+
 > * 区别
 >  * `call`和`apply`传入的参数形式不同
 >  * `bind` 需要再仔细研究
 > * 兼容性
-> 
+>
 > * 参考资料
 >  * 官方`bind`解释：[https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/bind](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/bind)
 
@@ -706,7 +712,7 @@ function foo() {
 > * 执行方式
 >  * 冒泡：从目标阶段到document，向上
 >  * 捕获：从document到到目标阶段，向下
-> * 
+> *
 
 * **"attribute" 和 "property" 的区别是什么？**
 
@@ -716,7 +722,7 @@ function foo() {
 
 > * 细节
 > * 当同一个属性名都不存在是，`attribute`的值是`null`，`property`的值是`undefined`，处理的机制不同（`null`,`undefined`区别，见上面）
-> 
+>
 > * attibute 和 property 同时存在一个相同的属性名时
 >> **修改attribute时，自动与property同步的条件**
 >>
@@ -762,7 +768,8 @@ function foo() {
 ```javascript
 [1,2,3,4,5].duplicator(); // [1,2,3,4,5,1,2,3,4,5]
 ```
-    var x = [1, 2, 3, 4, 5];
+```javascript
+  var x = [1, 2, 3, 4, 5];
 	function y(a) {
 	    var z = [],m;
 	    m = a.slice();
@@ -771,6 +778,7 @@ function foo() {
 	    return z;
 	}
 	console.log(y(x));
+```
 
 * **什么是三元表达式 (Ternary expression)？“三元 (Ternary)” 表示什么意思？**
 
@@ -791,19 +799,19 @@ function foo() {
 >  * 在多个资源全部都完成之后，例如：有10个`js`，3个`css`，5个`img`完成之后，需要执行
 >  
 > * `load`触发条件，必须所有的资源全部加载完毕才能执行，如果一个资源没有加载完毕，后续的工作都不能进行，造成页面假死
-> 
+>
 > * 改进
 >  * 对于资源的加载完毕，多数情况下指js和css文件，通常会使用ready去代替。特点：执行更早，对于img资源无须等待
 >  * 对于指定某些资源加载完毕就执行，可以用事件监听和`promise`的`all`共同处理
 
 * **使用 Promises 而非回调 (callbacks) 优缺点是什么？**
- 
+
 > * **什么是promise？为什么要有它？** 为了解决回调函数不断的问题，造成代码可读性极差的问题，(例如：[http://www.kuaidadi.com/assets/js/animate.js](http://www.kuaidadi.com/assets/js/animate.js)),一种方式或者名称
-> 
+>
 > * **它是怎么解决的？** 其解决的方式：让回调的方法以链式调用的方式传递
-> 
+>
 > * **怎么实现它？** 可以用多种方式实现，利用`callback`或在`ES6`的环境中使用内置的`Promise`语法
-> 
+>
 > * **它有什么缺点吗?**
 >  * 在浏览器端存在兼容性问题，在不支持`ES6`的环境中
 >  * 它的解决方式相比以前的写法已经有了很大的改变，但是总是`new Promise`的语法还是比较复杂，同时在一些环境下，还是不能完美的解决。新的代替方式`async`和`await`可简洁的代替它，但是还需要`ES7`支持
@@ -835,7 +843,7 @@ function foo() {
 > * 研究react框架时在深入学习
 
 * 请解释同步 (synchronous) 和异步 (asynchronous) 函数的区别。
-* 
+*
 * **什么是事件循环 (event loop)？**
   * **请问调用栈 (call stack) 和任务队列 (task queue) 的区别是什么？**
 
@@ -916,7 +924,7 @@ function foo() {
 * **为什么传统上利用多个域名来提供网站资源会更有效？**
 
 > * 因为不同浏览器对同一域名的并行下载限制在8以内，多个域名下载可以突破这种限制
-> 
+>
 > * 域名越多越好？
 >  * 浏览器对于在短时间请求多个域名是有限制的（具体超过多少还没找到资料），超过一定数量，域名的DNS解析会被丢弃
 >  
@@ -929,8 +937,8 @@ function foo() {
 * **请尽可能完整得描述从输入 URL 到整个网页加载完毕及显示在屏幕上的整个流程**
 
 > url > dns > ip > site
-> 加载dom > 加载js,css,img > 
-> 执行js，css ，执行layout > 构建dom树 > paint > compsiting > render树 
+> 加载dom > 加载js,css,img >
+> 执行js，css ，执行layout > 构建dom树 > paint > compsiting > render树
 
 * **Long-Polling、Websockets 和 Server-Sent Event 之间有什么区别？**
 
@@ -1022,7 +1030,7 @@ var bar = foo;
 foo.x = foo = {n: 2};
 ```
 
-> * ```undefined``` 
+> * ```undefined```
 > * 在执行期间，先进行寻址在赋值，寻址的结果是bar指向的对象
 > * 参考资料
 >  * 解释执行过程：[http://stackoverflow.com/questions/34933210/why-is-the-value-of-foo-x-undefined-in-foo-x-foo-n-2](http://stackoverflow.com/questions/34933210/why-is-the-value-of-foo-x-undefined-in-foo-x-foo-n-2)
