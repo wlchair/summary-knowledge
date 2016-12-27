@@ -185,7 +185,10 @@ In retrospect, the Web would have been better off by not having the distintion b
 
 * **你用过哪些不同的 HTML 模板语言？**
 
->
+> * 关于这个几种模板的具体优劣还需要继续研究，实践。关于评论中的讨论，还需要深入体会。结合react、vue、reagular
+> 
+> * 参考资料
+>  * 详细的介绍几种区别：[http://www.html-js.com/article/Regularjs-Chinese-guidelines-for-a-comprehensive-summary-of-the-front-template-technology](http://www.html-js.com/article/Regularjs-Chinese-guidelines-for-a-comprehensive-summary-of-the-front-template-technology)
 
 #### <a name='css-questions'>CSS 相关问题：</a>
 
@@ -215,12 +218,32 @@ In retrospect, the Web would have been better off by not having the distintion b
 >  * 其他块级元素会无视这个元素，造成遮盖的情况
 >  * 父普通流出现`高度塌陷`的情况，因为父元素不会把`float`元素的宽、高计算在内
 > * 清除浮动方式：
->  * 清除浮动：`clear`方式，在浮动结尾处加入清除浮动元素，让浮动结束并让父元素知道浮动元素的高度
+>  * 清除浮动：`clear`方式，在浮动结尾处或下个元素上加入`clear`属性，防止上面带来的影响。但是不能解决高度塌陷的问题
 >  * 闭合浮动：使用overflow、display方式，创建一个BFC环境
 > * 使用场景：
->  * 在不支持BFC的环境中，使用清楚浮动。在其他环境下使用BFC
+>  * 在不支持BFC的环境中，使用清除浮动
+```javascript
+	/*在不支持after的环境中，触发haslayout来清除浮动*/
+    .clearfix{
+        *zoom: 1;
+        display: block;
+    }
+    /*触发BFC环境，让元素闭合浮动*/
+    .clearfix{
+        display: inline-block;
+    }
+    /*使用尾部加入标签，对元素清除浮动*/
+    .clearfix:after{
+        clear: both;
+        content: '';
+        display: block;
+        height: 0;
+        visibility: hidden;
+    }
+```
 > * 参考资料：
->  * w3c说明：[https://www.w3.org/TR/css3-box/#block-level0](https://www.w3.org/TR/css3-box/#block-level0)
+> * 解释，清除和闭合的区别：[https://segmentfault.com/q/1010000000732608](https://segmentfault.com/q/1010000000732608)
+>  * W3C说明：[https://www.w3.org/TR/css3-box/#block-level0](https://www.w3.org/TR/css3-box/#block-level0)
 >  * 各种方法解释：[http://www.zhihu.com/question/19915431](http://www.zhihu.com/question/19915431)
 >  * 涉及到了positon：[http://www.cnblogs.com/vitruvi/p/4303891.html](http://www.cnblogs.com/vitruvi/p/4303891.html)
 
