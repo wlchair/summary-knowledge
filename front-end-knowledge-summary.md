@@ -763,7 +763,9 @@ function foo() {
 > * 执行方式
 >  * 冒泡：从目标阶段到document，向上
 >  * 捕获：从document到到目标阶段，向下
-> *
+> * 注意
+>  * `blur`，`focus`，`load`，`unload`都不支持，事件冒泡中。
+>  * `jquery3`，去掉了load和unload事件
 
 * **"attribute" 和 "property" 的区别是什么？**
 
