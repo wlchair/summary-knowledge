@@ -314,6 +314,7 @@ In retrospect, the Web would have been better off by not having the distintion b
 * **如何优化网页的打印样式？**
 *
 * **在书写高效 CSS 时会有哪些问题需要考虑？**
+
 > * 考虑两方面：性能，可维护性
 > * 性能：
 >  * 文件体积
@@ -671,17 +672,44 @@ function foo() {
 >  * 函数声明
 >  * 函数表达式
 >  * 构造函数
+>   
 > * 区别
 >  * 函数声明在下载完之后，解释器优先读取，确保在执行之前已经被解析完成
 >  * 表达式等同于变量，只有用到的时候才开始解析
 
 * **`.call` 和 `.apply`、`bind` 的区别是什么？**
 
-> * 区别
->  * `call`和`apply`传入的参数形式不同
->  * `bind` 需要再仔细研究
+> * call，apply
+>  * **特征**：立即调用，改变函数内部的this指向
+>  * **常用场景**：扩展对象的方法，但是不改变全局对象的方法
+>  
+> * bind
+>  * **特征**：改变函数内部this指向，返回新函数对象
+>  * **常用场景**：回调（事件）函数绑定
+> 
 > * 兼容性
->
+>  * 在ES5标准以前的浏览器不支持，需要ployfill
+
+```javascript
+	Function.prototype.bind = function(oThis) {
+        if (typeof this !== "function") {
+            // closest thing possible to the ECMAScript 5
+            // internal IsCallable function
+            throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
+        }
+        var aArgs = Array.prototype.slice.call(arguments, 1),
+            fToBind = this,
+            fNOP = function() {},
+            fBound = function() {
+                return fToBind.apply(this instanceof fNOP ? this : oThis || this,
+                    aArgs.concat(Array.prototype.slice.call(arguments)));
+            };
+        fNOP.prototype = this.prototype;
+        fBound.prototype = new fNOP();
+        return fBound;
+    };
+```
+
 > * 参考资料
 >  * 官方`bind`解释：[https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/bind](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/bind)
 
