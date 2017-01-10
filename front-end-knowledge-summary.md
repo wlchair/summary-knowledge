@@ -1,3 +1,4 @@
+
 #前端工作面试问题
 
 本文包含了一些用于考查候选者的前端面试问题。不建议对单个候选者问及每个问题 (那需要好几个小时)。只要从列表里挑选一些，就能帮助你考查候选者是否具备所需要的技能。
@@ -138,7 +139,7 @@ In retrospect, the Web would have been better off by not having the distintion b
 > * 主体：`header, nav, artcile, section, aside, footer`
 
 ```javascript
-	<header></header>
+    <header></header>
     <nav></nav>
     <article><section></section></article>
     <aside></aside>
@@ -223,7 +224,7 @@ In retrospect, the Web would have been better off by not having the distintion b
 > * 使用场景：
 >  * 在不支持BFC的环境中，使用清除浮动
 ```javascript
-	/*在不支持after的环境中，触发haslayout来清除浮动*/
+    /*在不支持after的环境中，触发haslayout来清除浮动*/
     .clearfix{
         *zoom: 1;
         display: block;
@@ -691,7 +692,7 @@ function foo() {
 >  * 在ES5标准以前的浏览器不支持，需要ployfill
 
 ```javascript
-	Function.prototype.bind = function(oThis) {
+    Function.prototype.bind = function(oThis) {
         if (typeof this !== "function") {
             // closest thing possible to the ECMAScript 5
             // internal IsCallable function
@@ -825,14 +826,14 @@ function foo() {
 ```
 ```javascript
   var x = [1, 2, 3, 4, 5];
-	function y(a) {
-	    var z = [],m;
-	    m = a.slice();
-	    z = m.concat(a);
-	    z.reverse()
-	    return z;
-	}
-	console.log(y(x));
+    function y(a) {
+        var z = [],m;
+        m = a.slice();
+        z = m.concat(a);
+        z.reverse()
+        return z;
+    }
+    console.log(y(x));
 ```
 
 * **什么是三元表达式 (Ternary expression)？“三元 (Ternary)” 表示什么意思？**
@@ -1115,15 +1116,19 @@ x = ['2'];
 
 > * 使用这些标签，其初衷都是为了解决浏览器的兼容性问题。
 > * 常用的手段：css hack, html 条件注释，css 条件注释，UA检测，能力检测（特性检测）
+> 
 > * css hack
-> * **优势**：代码直接，在其他文件里
-> * **劣势**：文件大了以后，难以维护。
+>> * **优势**：代码直接，在其他文件里
+>> * **劣势**：文件大了以后，难以维护。
+>
 > * css 条件注释
-> * **优势**：文件结构清晰，在中型项目中优势明显，维护方便
-> * **劣势**：需要增加额外的http请求，在大型项目中，多个模块维护起来也很难
+>> * **优势**：文件结构清晰，在中型项目中优势明显，维护方便
+>> * **劣势**：需要增加额外的http请求，在大型项目中，多个模块维护起来也很难
+>
 > * html条件注释
-> * **优势**：使用IE-5-9都认识的注释方式，有hack的优势，同时维护简单
-> * **劣势**：只有在IE的一定范围浏览器内才起作用
+>> * **优势**：使用IE-5-9都认识的注释方式，有hack的优势，同时维护简单
+>> * **劣势**：只有在IE的一定范围浏览器内才起作用
+>
 > * 上面这些优劣的都是相对于兼容很多浏览器的情况，但随着浏览器的快速发展和用户跟进速度提高，很多网站已经不需要再进行那么的浏览器维护了。（开发者共同推动用户放弃老浏览器）。所以在实际应用的场景中，越来越多的都是采用`优雅降级`和`渐进增强`的方式制作网页。
 > * 在特殊情况下，使用css 条件注释做特定浏览器处理。
 > * 在网站加载时，先用UA检测了解到浏览器内核（不完全信任）来统计访问的浏览器信息
@@ -1147,3 +1152,28 @@ obj["for"] = "Simon"; // 工作正常
 
 * **什么是内存泄露？怎么避免？**
 * **运算符优先级？**
+* **页面加载与执行优化思路？加载顺序？执行顺序？如果加载中有不能被加载或者延迟的情况会有什么样的影响?**
+
+> * 加载顺序
+> * **[js,css,img]**：加载顺序(head > body)，如果有没有加载完成，其他文件会并发加载，根据浏览器并发数决定，阻塞型加载
+
+> * 执行顺序
+>> * **[css]**：同样位置（都在body或者head内)(head里有没有完成的，body也不能执行)，按照从上至下执行，不管加载顺序，
+>> * **[css]**：同样位置，如果有css文件(不能加载完成)或(仍在加载)，即使其他文件文件已经下载完成也不能执行，需要等待未完成的返回结果，再一起执行
+>> * **[css]**：head > body > ready > body load事件 > load事件
+>
+> * 执行顺序
+>> * **[js]**：一般情况下是从上至下,但是可以通过脚本标签设置执行规则(defer,async)
+>> * **[js,img]**：只要本身的文件之前没有文件(不能加载完成)或(仍在加载)，就可以立即执行
+>> * **[js]**：head > body > defer > ready事件 > async > seajs,requirejs加载的文件 > body load事件 > load事件
+>
+> * 执行顺序
+>> * **[img]**： ready > head > body > body load事件 > load事件
+>
+> * 总体执行顺序：
+>> * `js`,`css`谁在前面谁先加载,除非js特殊设置,`img`永远在两个后面
+>
+> * 优化思路：
+>> * `css`必须放到head里，防止DOM二次渲染
+>> * `js`尽量放到最后面或者做异步加载，防止阻塞页面渲染，因为它是及时执行。特殊情况，需要js做判断决定加载的哪些文件，就不一定要放到后面
+>> * `img`放到哪都行，但是要提前占位，防止页面渲染多次
