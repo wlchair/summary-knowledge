@@ -62,6 +62,7 @@
 > **defineProperty**
 >
 > * 利用ES6的defineproperty特性，当对象进行赋值之后，会自动触发该方法的get，set（类似于function输出时，走toString的机制）
+> 
 >> * 优：不用手动调用，对于model直接修改后，对应的set方法会直接产生变化，显得更为方便、智能 
 >> * 优：不会遍历，效率始终保持高效，因为是内部机制，绑定
 
