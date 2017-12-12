@@ -335,6 +335,18 @@ In retrospect, the Web would have been better off by not having the distintion b
 > * 使用原则：
 >  * 还没有想好...
 
+**JPG,PNG,GIF,WEBP，这些图片格式如何使用**
+> * 优劣：
+>> * JPG用于高质量的图片，但是压缩会有损
+>> * PNG在8位色彩的图片，完全胜任，无损，但是颜色不能超过256色
+>> * GIF有独特的动图，不然就没有用了
+>> * WEBP，目前最好的网络传输图片方法，但是只在google的产品上能用
+>> * BASE64，直接通过数据流形式传入，减少HTTP请求
+>
+> * 参考资料：
+>> * 对比：[http://www.cnblogs.com/diligenceday/p/4472035.html](http://www.cnblogs.com/diligenceday/p/4472035.html "http://www.cnblogs.com/diligenceday/p/4472035.html")
+>> * WEBP独特演示：[https://www.zhihu.com/question/27201061/answer/35637827](https://www.zhihu.com/question/27201061/answer/35637827 "https://www.zhihu.com/question/27201061/answer/35637827") 
+
 * **你会如何解决特定浏览器的样式问题？**
 *
 * **如何为有功能限制的浏览器提供网页？**
