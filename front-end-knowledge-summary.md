@@ -23,14 +23,36 @@
 * *编写代码的哪些方面能够使你兴奋或感兴趣？*
 * *你最近遇到过什么技术挑战？你是如何解决的？*
 * **在制作一个网页应用或网站的过程中，你是如何考虑其 UI、安全性、高性能、SEO、可维护性以及技术因素的？**
+> 安全性：[https://www.cnblogs.com/vajoy/p/4176908.html](https://www.cnblogs.com/vajoy/p/4176908.html "https://www.cnblogs.com/vajoy/p/4176908.html")
+
 * *请谈谈你喜欢的开发环境。*
 * *你最熟悉哪一套版本控制系统？*
 * **你能描述当你制作一个网页的工作流程吗？**
 * **假若你有 5 个不同的样式文件 (stylesheets), 整合进网站的最好方式是?**
 * **你能描述渐进增强 (progressive enhancement) 和优雅降级 (graceful degradation) 之间的不同吗?**
+> 增强：
+> `--webkit-transition: 0.5s`
+> `transition: 0.5s`
+> 
+> 降级
+> `transition: 0.5s`
+> `--webkit-transition: 0.5s`
+> 多数情况下都是以业务优先的原则，满足用户基本使用，给更高级的设备用增强体验
+
 * **你如何对网站的文件和资源进行优化？**
-* **浏览器同一时间可以从一个域名下载多少资源？**
-  * **有什么例外吗？**
+
+> 文件：
+> 压缩，减小体积，把文件分割为适量大小
+> 按需加载，懒加载
+> 除了第一屏之外的文件，使用异步加载
+> 
+> 图片：使用svg或者精灵图，data uri
+> 
+> 网络：
+> 文件放在不同域下，提升加载速度
+> 利用浏览器缓存快速加载
+> 用增量更新
+
 * **请说出三种减少页面加载时间的方法。(加载时间指感知的时间或者实际加载时间) load ready domready**
 * *如果你参与到一个项目中，发现他们使用 Tab 来缩进代码，但是你喜欢空格，你会怎么做？*
 * **请写一个简单的幻灯效果页面。**
@@ -251,7 +273,27 @@ In retrospect, the Web would have been better off by not having the distintion b
 
 * **描述`z-index`和叠加上下文是如何形成的。**
 
-> * 待深入研究
+> * 显示顺序： `层叠上下文 < z-index: 负值 < block块级元素 < float浮动元素 < inline | inline-block <
+> z-index: auto | 0（position的元素） < z-index: 正值`
+> 
+> * 把元素变为层叠元素的属性：
+>
+>>    z-index值不为auto的flex项(父元素display:flex|inline-flex)
+>>    
+>>    元素的opacity值不是1.
+>>   
+>>   元素的transform值不是none.
+>>   
+>>   元素mix-blend-mode值不是normal.
+>>   
+>>   元素的filter值不是none.
+>>   
+>>   元素的isolation值是isolate.
+>>   
+>>   will-change指定的属性值为上面任意一个。
+>>   
+>>   元素的-webkit-overflow-scrolling设为touch.
+>    
 > * 参考资料：
 >  * 博客讲解：[http://www.zhangxinxu.com/wordpress/2016/01/understand-css-stacking-context-order-z-index/](http://www.zhangxinxu.com/wordpress/2016/01/understand-css-stacking-context-order-z-index/)
 >  * 官方解释：[https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Understanding_z_index/The_stacking_context](https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Understanding_z_index/The_stacking_context)
@@ -260,7 +302,13 @@ In retrospect, the Web would have been better off by not having the distintion b
 
 * **请描述 BFC(Block Formatting Context) 及其如何工作。**
 
->
+> 块级元素上下文
+> 触发这个情况后，它会变化元素的状态。形成一个不影响context以外的作用范围
+> 
+> * 特性：
+> - 块级格式化上下文会阻止外边距叠加
+> - 块级格式化上下文不会重叠浮动元素
+> - 块级格式化上下文通常可以包含浮动
 
 
 * **请解释 CSS sprites，以及你要如何在页面或网站中实现它。**
@@ -318,30 +366,35 @@ In retrospect, the Web would have been better off by not having the distintion b
 
 > * 考虑两方面：性能，可维护性
 > * 性能：
->  * 文件体积
->  * 层级嵌套不超过4层
->  * 继承属性
->  * 选择器权重
+>>  * 文件体积
+>> * 层级嵌套不超过4层
+>> * 继承属性
+>> * 选择器权重
+>
 > * 可维护性
->  * 模块命名标准
->  * 提取公共结构
->  * 属性顺序
+>> * 模块命名标准
+>> * 提取公共结构
+>> * 属性顺序
+>
 > * 方法论
->  * OOCSS，结构与样式分离，容器和内容分离
->  * SMACSS，把页面切分为多个大结构，BASE,LAYOUT,MODULE,STATE,THEME
->  * BEM，命名递增，block-element-modifier，例如：#nav-knowledge-item
+>> * OOCSS，结构与样式分离，容器和内容分离
+>> * SMACSS，把页面切分为多个大结构，BASE,LAYOUT,MODULE,STATE,THEME
+>> * BEM，命名递增，block-element-modifier，例如：#nav-knowledge-item
+>
 > * 参考资料
->  * 考虑面和方法论：[https://www.zhihu.com/question/19886806](https://www.zhihu.com/question/19886806)
->  * 深入细节选择器：[http://blog.jobbole.com/35339/](http://blog.jobbole.com/35339/)
+>> * 考虑面和方法论：[https://www.zhihu.com/question/19886806](https://www.zhihu.com/question/19886806)
+>> * 深入细节选择器：[http://blog.jobbole.com/35339/](http://blog.jobbole.com/35339/)
 
 * **使用 CSS 预处理器的优缺点有哪些？请描述你曾经使用过的 CSS 预处理器的优缺点？**
 
 > * 预处理特性
 >  * 把`css`赋予编程语言：变量、混合、函数、继承。减少代码的冗余，易于维护、扩展
+>  
 > * 各种预处理器的特性
->  * ~~**Less**~~
->  * ~~**Sass**~~
->  * ~~**Styleus**~~
+>> * ~~**Less**~~
+>> * ~~**Sass**~~
+>> * ~~**Styleus**~~
+>
 > * 参考资料：
 >  * 不同预处理器对比：[http://efe.baidu.com/blog/revisiting-css-preprocessors/](http://efe.baidu.com/blog/revisiting-css-preprocessors/)
 * **如果设计中使用了非标准的字体，你该如何去实现？**
@@ -359,9 +412,9 @@ In retrospect, the Web would have been better off by not having the distintion b
 * **请解释浏览器是如何判断元素是否匹配某个 CSS 选择器？**
 
 > * `css`的匹配原则
->  * 权重高的优先
->  * 离得近的优先
->  * **权重**作用大于**离得近**
+>>  * 权重高的优先
+>> * 离得近的优先
+>> * **权重**作用大于**离得近**
 >  
 > * 权重顺序
 >  * important > 行内(1000) > id(100) > class、属性、伪类(10) > tag、伪元素(1)
@@ -414,6 +467,9 @@ In retrospect, the Web would have been better off by not having the distintion b
 >  * position文档：[https://developer.mozilla.org/zh-CN/docs/Web/CSS/position](https://developer.mozilla.org/zh-CN/docs/Web/CSS/position)
 
 * **你在开发或生产环境中使用过哪些 CSS 框架？你觉得应该如何改善他们？**
+
+> * 区别：[https://ruby-china.org/topics/17143](https://ruby-china.org/topics/17143 "https://ruby-china.org/topics/17143")
+
 * **请问你有尝试过 CSS Flexbox 或者 Grid 标准规格吗？**
 
 > [flexbox知识](http://www.w3cplus.com/css3/a-guide-to-flexbox.html) , [grid知识](http://www.w3cplus.com/css3/line-base-placement-layout.html)
@@ -422,20 +478,20 @@ In retrospect, the Web would have been better off by not having the distintion b
 * **为什么响应式设计 (responsive design) 和自适应设计 (adaptive design) 不同？**
 
 > * 区别
->  * 响应式：你动他就动
->  * 自适应：你动到一定程度它才动
+>> * 响应式：你动他就动
+>> * 自适应：你动到一定程度它才动
 >  
 > * 应用场景
->  * 如果你一些必须要支持的设备（例如：iphone6），其他方面可以不用特别关心。可用自适应
->  * 如果你不确定市场上的设备的情况，响应式更适合你
+>> * 如果你一些必须要支持的设备（例如：iphone6），其他方面可以不用特别关心。可用自适应
+>> * 如果你不确定市场上的设备的情况，响应式更适合你
 >  
 > * 优劣
->  * 由于`你动他就动`的特性，布局实时变化产生页面的重排，性能比较低
->  * 在不确定未来的设备会发展成什么样，他的适应能力更强
->  * 相反的方向就是**自适应**的问题了
+>> * 由于`你动他就动`的特性，布局实时变化产生页面的重排，性能比较低
+>> * 在不确定未来的设备会发展成什么样，他的适应能力更强
+>> * 相反的方向就是**自适应**的问题了
 >  
 > * 参考资料
->  * 生动的图片区别：[https://css-tricks.com/the-difference-between-responsive-and-adaptive-design/](https://css-tricks.com/the-difference-between-responsive-and-adaptive-design/)
+>> * 生动的图片区别：[https://css-tricks.com/the-difference-between-responsive-and-adaptive-design/](https://css-tricks.com/the-difference-between-responsive-and-adaptive-design/)
 
 
 * **你有兼容 retina 屏幕的经历吗？如果有，在什么地方使用了何种技术？**
@@ -623,23 +679,24 @@ function foo() {
 * **描述以下变量的区别：`null`，`undefined` 或 `undeclared`？该如何检测它们？**
 
 > * 考点
->  * 基本数据类型：Undefined, Null, Number, String, Boolean
->  * 引用数据类型：Function, Object, Array
+>> * 基本数据类型：Undefined, Null, Number, String, Boolean
+>> * 引用数据类型：Function, Object, Array
 >  
 > * 检验类型
->  * 基本类型：`typeof`
->  * 引用：`instanceof`
+>> * 基本类型：`typeof`
+>> * 引用：`instanceof`
 >  
-> * 特殊
->  * `null`在`typeof`下面是`Object`，在`instanceof`下面不属于`Object`，所以检测用两者结合。
+> * 检测方法
+>> * 基本类型用`typeof`即可，遇到引用类型，例如：`function`、`array`之类的可以用toString还原他们
+>> 的真是类型在判断
 >  
 > * 注意
->  * `null`: 表示不应该有对象
->  * `undefined`：可以有值，但是还没有赋值
->  * `undecleared`：没声明，直接用。造成语法错误
+>> * `null`: 表示不应该有对象
+>> * `undefined`：可以有值，但是还没有赋值
+>> * `undecleared`：没声明，直接用。造成语法错误
 >
 > * 参考资料
->  * 《高级程序设计》3章：基本类型，5章：引用类型，22章：类型检测
+>> * 《高级程序设计》3章：基本类型，5章：引用类型，22章：类型检测
 >  * 代码学习，jquery内class2type和jQuery.type使用实例
 
 * **什么是闭包 (closure)，如何使用它，为什么要使用它？**
@@ -766,11 +823,12 @@ function foo() {
 * **请描述事件冒泡机制 (event bubbling)和捕获机制的不同**
 
 > * 执行方式
->  * 冒泡：从目标阶段到document，向上
->  * 捕获：从document到到目标阶段，向下
+>> * 冒泡：从目标阶段到document，向上
+>> * 捕获：从document到到目标阶段，向下
+>
 > * 注意
->  * `blur`，`focus`，`load`，`unload`都不支持，事件冒泡中。
->  * `jquery3`，去掉了load和unload事件
+>> * jquery中，`focus`，`mouseenter`都不冒泡
+>> * `jquery3`，去掉了load和unload事件
 
 * **"attribute" 和 "property" 的区别是什么？**
 
@@ -817,8 +875,8 @@ function foo() {
 
 * **`==` 和 `===` 有什么不同？ 关于数据类型的检测**
 
-> * `0`,`undefined`,`false`,`null` ==
-> * `typeof`基本类型检测, `instanceof`引用类型检测
+> * `0`,`undefined`,`false`,`null` == 会转换数据类型
+> * === 比较的是内存位置，如果是统一位置就是相同的
 
 * **请解释 JavaScript 的同源策略 (same-origin policy)。**
 
@@ -1164,6 +1222,36 @@ var tmpArray = ["10","5","20","1","100"];
 ```
 > * 冒泡排序
 > * 快速排序
+```javascript
+function quickSort(array) {
+	function sort(prev, size) {
+		var start = prev;
+		var end = size - 1;
+		var flag = array[prev];
+		if ((size - prev) > 1) {
+			while (start < end) {
+				for (; start < end; end--) {
+					if (array[end] < flag) {
+						array[start++] = array[end];
+						break;
+					}
+				}
+				for (; start < end; start++) {
+					if (array[start] > flag) {
+						array[end--] = array[start];
+						break;
+					}
+				}
+			}
+			array[start] = flag;
+			sort(0, start);
+			sort(start + 1, size);
+		}
+	}
+	sort(0, array.length);
+	return array;
+}
+```
 > * 内置的sort方法，sort传入排序函数，用index标记前后
 
 * **页面加载与执行优化思路？加载顺序？执行顺序？如果加载中有不能被加载或者延迟的情况会有什么样的影响?**
