@@ -1303,3 +1303,15 @@ function quickSort(array) {
 >> * `css`必须放到head里，防止DOM二次渲染
 >> * `js`尽量放到最后面或者做异步加载，防止阻塞页面渲染，因为它是及时执行。特殊情况，需要js做判断决定加载的哪些文件，就不一定要放到后面
 >> * `img`放到哪都行，但是要提前占位，防止页面渲染多次
+
+* **CSS的继承机制是什么**
+
+> * 没有通过具体的信息，总体规律：
+>> * 字体，文本，颜色用于描述内容的可以被继承
+>> * 布局，结构不会被继承
+
+> * 手动的设置一些继承 或 强制不继承
+>> * initial, inherit, unset, all
+
+> * 参考资料
+>> * [https://www.w3cplus.com/css3/managing-the-css-cascade.html](https://www.w3cplus.com/css3/managing-the-css-cascade.html)
