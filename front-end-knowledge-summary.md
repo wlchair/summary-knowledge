@@ -394,6 +394,7 @@ In retrospect, the Web would have been better off by not having the distintion b
 >> * BEM，命名递增，block-element-modifier，例如：#nav-knowledge-item
 >
 > * 参考资料
+>> * 不同规范解读：[https://segmentfault.com/a/1190000000389838](https://segmentfault.com/a/1190000000389838 "https://segmentfault.com/a/1190000000389838")
 >> * 考虑面和方法论：[https://www.zhihu.com/question/19886806](https://www.zhihu.com/question/19886806)
 >> * 深入细节选择器：[http://blog.jobbole.com/35339/](http://blog.jobbole.com/35339/)
 
@@ -409,6 +410,17 @@ In retrospect, the Web would have been better off by not having the distintion b
 >
 > * 参考资料：
 >  * 不同预处理器对比：[http://efe.baidu.com/blog/revisiting-css-preprocessors/](http://efe.baidu.com/blog/revisiting-css-preprocessors/)
+
+* **CSS模块化的优势、实现**
+
+> * 在复杂页面上，不用在考虑样式是否会重复，互相影响的问题
+> * 实现
+>> - 使用webpack的css-loader，在js代码中实现${style.element}结构
+>> - 通过extract-text插件，提取出生成的文件
+>
+>> 参考资料
+>> * 如何在项目中实现：[https://www.w3cplus.com/css/solve-your-specificity-headaches-with-css-modules.html](https://www.w3cplus.com/css/solve-your-specificity-headaches-with-css-modules.html "https://www.w3cplus.com/css/solve-your-specificity-headaches-with-css-modules.html")
+
 * **如果设计中使用了非标准的字体，你该如何去实现？**
 
 > * 作用
