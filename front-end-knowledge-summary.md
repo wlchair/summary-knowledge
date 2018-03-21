@@ -389,9 +389,9 @@ In retrospect, the Web would have been better off by not having the distintion b
 >> * 属性顺序
 >
 > * 方法论
->> * OOCSS，结构与样式分离，容器和内容分离
->> * SMACSS，把页面切分为多个大结构，BASE,LAYOUT,MODULE,STATE,THEME
->> * BEM，命名递增，block-element-modifier，例如：#nav-knowledge-item
+>> * OOCSS，结构与样式分离，容器和内容分离 (语义化)
+>> * SMACSS，把页面切分为多个大结构，BASE, LAYOUT, MODULE, STATE, THEME (整体布局)
+>> * BEM，命名递增，block-element__modifier，例如：#nav-knowledge__item (命名冲突)
 >
 > * 参考资料
 >> * 不同规范解读：[https://segmentfault.com/a/1190000000389838](https://segmentfault.com/a/1190000000389838 "https://segmentfault.com/a/1190000000389838")
@@ -1315,3 +1315,12 @@ function quickSort(array) {
 
 > * 参考资料
 >> * [https://www.w3cplus.com/css3/managing-the-css-cascade.html](https://www.w3cplus.com/css3/managing-the-css-cascade.html)
+
+* ** NEW一个新对象的时候发生了什么 **
+
+> * 1. 创建一个对象
+> * 2. 构造函数的`prototype`指向当前这个对象的实例
+> * 3. 把`this`指向了这个新对象
+
+> * 参考资料
+>> * [https://segmentfault.com/q/1010000006670906?_ea=1091798](https://segmentfault.com/q/1010000006670906?_ea=1091798)
