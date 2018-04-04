@@ -1334,7 +1334,7 @@ function quickSort(array) {
 > * 参考资料
 >> * [https://www.w3cplus.com/css3/managing-the-css-cascade.html](https://www.w3cplus.com/css3/managing-the-css-cascade.html)
 
-* ** NEW一个新对象的时候发生了什么 **
+* **NEW一个新对象的时候发生了什么**
 
 > * 1. 创建一个对象
 > * 2. 构造函数的`prototype`指向当前这个对象的实例
@@ -1343,7 +1343,7 @@ function quickSort(array) {
 > * 参考资料
 >> * [https://segmentfault.com/q/1010000006670906?_ea=1091798](https://segmentfault.com/q/1010000006670906?_ea=1091798)
 
-* ** 有哪些运算符，有什么应用场景* **
+* **有哪些运算符，有什么应用场景**
 
 > 类型：算术、位、关系、相等
 > toString、valueof
@@ -1376,3 +1376,6 @@ a = a^b;
 
 > * <<、>>：把数据的位数左、右移动N位
 >>应用：每动一个位置，等于乘除2
+
+
+
