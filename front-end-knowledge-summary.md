@@ -451,6 +451,7 @@ In retrospect, the Web would have been better off by not having the distintion b
 >  * 选择器兼容性：[https://kimblim.dk/css-tests/selectors/](https://kimblim.dk/css-tests/selectors/)
 >  * 选择器性能：[http://www.w3cplus.com/css/css-selector-performance](http://www.w3cplus.com/css/css-selector-performance)
 >  * 选择器lint工具：[http://csslint.net/](http://csslint.net/)
+>
 
 * **请描述伪元素 (pseudo-elements),伪类有哪些 及其用途。**
 
@@ -1081,6 +1082,10 @@ function foo() {
 > url > dns > ip > site
 > 加载dom > 加载js,css,img >
 > 执行js，css ，执行layout > 构建dom树 > paint > compsiting > render树
+>
+> * 参考资料
+>  * 英文原版：[http://taligarsiel.com/Projects/howbrowserswork1.htm](http://taligarsiel.com/Projects/howbrowserswork1.htm)
+>  * 另一个中文：[https://github.com/skyline75489/what-happens-when-zh_CN](https://github.com/skyline75489/what-happens-when-zh_CN)
 
 * **Long-Polling、Websockets 和 Server-Sent Event 之间有什么区别？**
 
